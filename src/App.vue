@@ -5,7 +5,7 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
   <header>
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <h1 class="text-3xl font-bold underline bg-red-200">Hello World!!</h1>
     </div>
   </header>
 
