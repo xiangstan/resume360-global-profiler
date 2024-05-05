@@ -149,6 +149,7 @@ dist-ssr
 .yarn/install-state.gz
 .pnp.*
 
-
+# local unminify/text files
+/src/assets/i18n/*.json
 test.*
 syslog
