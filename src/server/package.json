@@ -1,0 +1,23 @@
+{
+  "name": "resume360-global-profiler-backend",
+  "version": "1.0.0",
+  "description": "NodeJS/ExpressJS backend for Resume global reivew.",
+  "main": "index.js",
+  "scripts": {
+    "serve": "nodemon index.js"
+  },
+  "author": "Xiang Tan",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
