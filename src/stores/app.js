@@ -5,12 +5,18 @@ export const useAppStore = defineStore("appStore", {
   state: () => {
     return {
       isDarkMode: false,
+      isInternal: false,
     }
   },
   actions: {
+    // toggle between light/dark mode
     setDarkMode(data) {
-      const darkMode = (typeof data === "boolean") ? data : false
+      const darkMode = (typeof data === "boolean") ? data : false;
       this.isDarkMode = darkMode
-    }
+    },
+    // Define an action to update the internal status
+    updateInternalStatus(status) {
+      this.isInternal = (typeof data === "boolean") ? status : false;
+    },
   },
 })
