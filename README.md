@@ -38,6 +38,24 @@ pnpm install -D tailwindcss@latest postcss@latest autoprefixer@latest
 npx tailwindcss init -p
 ```
 
+With `yarn`
+
+```sh
+vue add tailwind
+```
+
+### Install i18n
+
+```sh
+pnpm add vue-i18n@9
+```
+
+### Install Google SSO
+
+```sh
+pnpm add vue3-google-login
+```
+
 ## Project Setup
 
 ```sh

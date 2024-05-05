@@ -23,6 +23,9 @@ importers:
       vue-router:
         specifier: ^4.3.0
         version: 4.3.2(vue@3.4.26)
+      vue3-google-login:
+        specifier: ^2.0.26
+        version: 2.0.26(vue@3.4.26)
     devDependencies:
       '@rushstack/eslint-patch':
         specifier: ^1.8.0
@@ -1273,6 +1276,11 @@ packages:
     peerDependencies:
       vue: ^3.2.0
 
+  vue3-google-login@2.0.26:
+    resolution: {integrity: sha512-BuTSIeSjINNHNPs+BDF4COnjWvff27IfCBDxK6JPRqvm57lF8iK4B3+zcG8ud6BXfZdyuiDlxletbEDgg4/RFA==}
+    peerDependencies:
+      vue: ^3.0.3
+
   vue@3.4.26:
     resolution: {integrity: sha512-bUIq/p+VB+0xrJubaemrfhk1/FiW9iX+pDV+62I/XJ6EkspAO9/DXEjbDFoe8pIfOZBqfk45i9BMc41ptP/uRg==}
     peerDependencies:
@@ -2443,6 +2451,10 @@ snapshots:
   vue-router@4.3.2(vue@3.4.26):
     dependencies:
       '@vue/devtools-api': 6.6.1
+      vue: 3.4.26
+
+  vue3-google-login@2.0.26(vue@3.4.26):
+    dependencies:
       vue: 3.4.26
 
   vue@3.4.26:
