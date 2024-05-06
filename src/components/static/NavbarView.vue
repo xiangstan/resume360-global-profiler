@@ -20,7 +20,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
               </svg>
             </a>
-            <a v-if="!appStore.isInternal" to="/login" class="capitalize py-2 px-3 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 hover:text-yellow-800 rounded transition duration-300">
+            <a v-if="!appStore.isInternal" @click="showLoginModal" class="capitalize cursor-pointer py-2 px-3 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 hover:text-yellow-800 rounded transition duration-300">
               {{ $t('general.signin') }}
             </a>
             <a v-else to="/login" class="cursor-pointer" @click="logOff">
@@ -40,8 +40,10 @@
 <script setup>
 import { computed } from 'vue';
 import { useAppStore } from '@/stores/app';
+import { useShowStore } from '@/stores/show';
 
 const appStore = useAppStore();
+const showStore = useShowStore();
 
 const isDarkMode = computed(() => {
   return appStore.isDarkMode
@@ -50,8 +52,21 @@ const isDarkMode = computed(() => {
 /*** set dark/light mode */
 const toggleDarkMode = () => {
   const newMode = !isDarkMode.value
-  localStorage.setItem("potgDarkMode", newMode.toString());
+  localStorage.setItem(import.meta.env.VITE_APP_SITE_SHORT + "DarkMode", newMode.toString());
   appStore.setDarkMode(newMode);
   document.documentElement.classList.toggle("dark", newMode);
+}
+
+/*** open login modal */
+const showLoginModal = () => {
+  showStore.updateShow({
+    key: "loginModal",
+    value: !showStore.loginModal
+  })
+}
+
+/*** log off */
+const logOff = () => {
+  console.log("Log off")
 }
 </script>
