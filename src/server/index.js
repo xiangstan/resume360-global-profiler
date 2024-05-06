@@ -6,7 +6,7 @@ const port = process.env.BACKEND_PORT || 8100;
 
 require("dotenv").config()
 
-const userRoutes = require("./src/routes/user.js");
+const userRoutes = require("./routes/user.js");
 
 app.use(morgan("tiny"));
 app.use(cors());

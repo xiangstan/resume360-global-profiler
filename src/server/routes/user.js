@@ -1,5 +1,6 @@
 const express = require("express");
 const userRouter = express.Router();
+const { addUser, checkUser } = require("../functions/user.js")
 const { dbQueryValidate } = require("../utils/db");
 const { createJwtToken, verifyJwtToken } = require("../utils/jwt.js");
 
@@ -17,12 +18,7 @@ userRouter.post("/login", async function(req, res) {
       if (dbQueryValidate(result.errno, [100])) {
         result.errmsg = {
           uaid: result.insertedId,
-          email: req.body.user,
-          rgid: null,
-          money: 0,
-          disabled: false,
-          lvl: 1,
-          exp: 0
+          email: req.body.user
         }
         result.count = 1;
       }
@@ -38,3 +34,6 @@ userRouter.post("/login", async function(req, res) {
   }
   res.status(200).send(result);
 });
+
+//export this router to use in our index.js
+module.exports = userRouter;
