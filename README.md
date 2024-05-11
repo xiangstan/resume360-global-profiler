@@ -1,81 +1,26 @@
-# chainlink-js
+# Resume360 Global Profiler
 
-This template should help get you started developing with Vue 3 in Vite.
+Welcome to **Resume360 Global profile**, a revolutionary project at the intersection of AI and Blockchain technologies. This project aims to leverage the power of decentralized ledger technology to securely register, store, and search resumes as unique non-fungible tokens (NFTs) on the blockchain.
 
-## Recommended IDE Setup
+## Project Overview
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+Resume360 Global Profiler leverages blockchain technology to create a secure and immutable repository for resumes. Each resume is transformed into a unique NFT, with AI algorithms employed to summarize and extract key attributes. The NFTs store these attributes within their smart contracts, facilitating efficient and accurate resume searches.
 
-## Customize configuration
+## Key Features
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+* NFT Representation: Resumes are tokenized into NFTs upon registration, enabling unique ownership and verification of resume authenticity.
+* AI-Powered Attribute Extraction: AI algorithms analyze resumes to extract essential keywords and attributes, enhancing searchability and relevance.
+* Smart Contract Verification: Smart contracts validate the legitimacy of resumes before minting them as NFTs on the blockchain.
+* Blockchain Integrity: The blockchain ensures tamper-proof storage and traceability of resumes and their associated metadata.
 
-## Create the project from scratch
+## How It Works
 
-```sh
-pnpm create vue@latest
-```
+1. Resume Registration: Users submit resumes through the platform, which undergo AI-based validation for authenticity and completeness.
+1. AI Attribute Extraction: Resumes are processed by AI algorithms to extract keywords and essential attributes, summarizing their content.
+1. Smart Contract Deployment: Upon validation, a smart contract is created for each resume-NFT pair, embedding extracted attributes and metadata.
+1. NFT Minting: Valid resumes are minted into unique NFTs on the blockchain, associating them with their respective smart contracts.
+1. Search and Access: Users can search and access resumes using the platform's frontend, querying keywords stored within NFTs' smart contracts.
 
-* Project name: ... chainlink-js
-* Add TypeScript? ... No
-* Add JSX Support? ... No
-* Add Vue Router for Single Page Application development? ... Yes
-* Add Pinia for state management? ... Yes
-* Add Vitest for Unit Testing? ... No
-* Add an End-to-End Testing Solution? » No
-* Add ESLint for code quality? ... Yes
-* Add Prettier for code formatting? ... Yes
-* Add Vue DevTools 7 extension for debugging? (experimental) ... No
+Getting Started
 
-## Libraries
-
-### Install TailwindCSS
-
-With `pnpm`
-
-```sh
-pnpm install -D tailwindcss@latest postcss@latest autoprefixer@latest
-npx tailwindcss init -p
-```
-
-With `yarn`
-
-```sh
-vue add tailwind
-```
-
-### Install i18n
-
-```sh
-pnpm add vue-i18n@9
-```
-
-### Install Google SSO
-
-```sh
-pnpm add vue3-google-login
-```
-
-## Project Setup
-
-```sh
-pnpm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-pnpm dev
-```
-
-### Compile and Minify for Production
-
-```sh
-pnpm build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-pnpm lint
-```
+1. [Installation](docs/Installation.md)
