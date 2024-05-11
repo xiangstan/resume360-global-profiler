@@ -21,6 +21,12 @@ Resume360 Global Profiler leverages blockchain technology to create a secure and
 1. NFT Minting: Valid resumes are minted into unique NFTs on the blockchain, associating them with their respective smart contracts.
 1. Search and Access: Users can search and access resumes using the platform's frontend, querying keywords stored within NFTs' smart contracts.
 
-Getting Started
+## Contributor
+
+* Guanchu He: (<charlottehgc@gmail.com>)
+
+## Getting Started
 
 1. [Installation](docs/Installation.md)
+
+## File Structure

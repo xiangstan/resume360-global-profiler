@@ -1,6 +1,41 @@
 # Recommended IDE Setup
 
+## Install VS Code
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+
+## Install NodeJS runtime environment
+
+The current code repository has been developed and tested on node.js version 20.13.1.
+
+### Windows
+
+Visit [https://nodejs.org/en/download](https://nodejs.org/en/download), and select v20.13.1 (LTS) 
+
+![](img/win-nodejs-download.png)
+
+### Linux (Ubuntu/Rocky Linux/UBI)
+
+Install **Node Version Manager** (nvm)
+
+```bash
+# Download nvm
+curl --insecure -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+# Activate nvm
+. ~/.nvm/nvm.sh
+# install lts version 20.13.1
+nvm install v20.13.1
+# check node version
+node --version
+```
+
+## Install PNPM package manager
+
+```bash
+# install pnpm
+npm install -g pnpm
+# check pnpm version
+pnpm --version
+```
 
 # Customize configuration
 
