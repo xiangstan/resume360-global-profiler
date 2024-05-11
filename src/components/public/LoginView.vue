@@ -10,14 +10,19 @@
 </template>
 
 <script setup>
-import { decodeCredential } from 'vue3-google-login'
+import { useRouter } from 'vue-router';
+import { decodeCredential } from 'vue3-google-login';
 
-// import { useRouter } from "vue-router"
+import { useMyAccount } from '@/stores/account';
+import { useShowStore } from '@/stores/show';
 
-import { ajaxCall, ajaxCompare } from '@/utils/ajax'
+import { ajaxCall, ajaxCompare } from '@/utils/ajax';
 import browserDetect from '@/utils/browser'
 
 const browser = browserDetect();
+const myAccount = useMyAccount();
+const showStore = useShowStore();
+const router = useRouter();
 
 /**
  * Handle Google Sign-In response.
@@ -33,12 +38,22 @@ const googleSignin = async (response) => {
       browser: browser.browser.name,
       user: userData.email
     }
-    console.log(ajaxData)
     const result = await ajaxCall({
       data: ajaxData,
       url: "user/login"
     })
-    console.log(result)
+    if (ajaxCompare(result.errno, [1])) {
+      sessionStorage.setItem(import.meta.env.VITE_APP_SITE_SHORT + "Token", result.jwt.errmsg)
+      myAccount.updateAccountData({
+        key: "profile",
+        value: result.errmsg[0]
+      });
+      showStore.updateShow({
+        key: "loginModal",
+        value: false
+      })
+      router.push("/user/dashboard")
+    }
   }
 }
 </script>

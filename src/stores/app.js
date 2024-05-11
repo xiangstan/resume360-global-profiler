@@ -16,7 +16,7 @@ export const useAppStore = defineStore("appStore", {
     },
     // Define an action to update the internal status
     updateInternalStatus(status) {
-      this.isInternal = (typeof data === "boolean") ? status : false;
+      this.isInternal = (typeof status === "boolean") ? status : false;
     },
   },
 })

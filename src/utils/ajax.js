@@ -63,7 +63,7 @@ export async function ajaxCall(val) {
     if (typeof axios === "undefined") {
       throw new Error("Axios not found!!");
     }
-    const token = sessionStorage.getItem("rgpToken");
+    const token = sessionStorage.getItem("sgpToken");
     const bear = {
       headers: { Authorization: `Bearer ${token}` }
     };
