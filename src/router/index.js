@@ -9,7 +9,6 @@ import browserDetect from '@/utils/browser';
 import HomeView from '../views/HomeView.vue';
 
 const updInternal = (status) => {
-  console.log("I am updating my isInternal status to " + status)
   const store = useAppStore();
   store.updateInternalStatus(status)
 }
@@ -28,7 +27,10 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta: {
+        title: 'Welcome'
+      }
     },
     {
       path: '/about',
@@ -43,17 +45,20 @@ const router = createRouter({
       name: "DashboardView",
       component: () => import('../views/dashboard/HomeView.vue'),
       meta: {
-        isInternal: true
+        isInternal: true,
+        title: 'User Dashboard'
       }
     },
   ]
 })
 
 router.beforeEach(async (to, from, next) => {
+  /*** set up page title */
+  const defaultPageTitle = import.meta.env.VITE_APP_SITE_LONG;
+  document.title = (to.meta.title) ? to.meta.title + " | " + defaultPageTitle : defaultPageTitle;
+  /*** check if the next page is an internal page */
   if (to.matched.some(record => record.meta.isInternal)) {
-    console.log("I am in beforeEach")
     const status = to.meta.isInternal;
-    console.log("Status is " + typeof status)
     updInternal(status);
     if (status) {
       const accountStore = useMyAccount();
@@ -63,6 +68,7 @@ router.beforeEach(async (to, from, next) => {
       if (localStoredUser === null || localStoredToken === null) {
         console.log("No saved user");
         next("/");
+        document.title = defaultPageTitle;
         return;
       }
       const myStoredUser = accountStore.profile.email || "";
@@ -85,7 +91,8 @@ router.beforeEach(async (to, from, next) => {
           }
           else {
             updInternal(false);
-            next("/")
+            next("/");
+            document.title = defaultPageTitle;
             return;
           }
         }
@@ -93,6 +100,7 @@ router.beforeEach(async (to, from, next) => {
           console.error("Error verifying user:", error);
           updInternal(false);
           next("/"); // Handle error by redirecting
+          document.title = defaultPageTitle;
           return;
         }
       }

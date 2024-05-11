@@ -67,7 +67,6 @@ export async function ajaxCall(val) {
     const bear = {
       headers: { Authorization: `Bearer ${token}` }
     };
-    console.log(val)
     const response = await axios.post(`/api/v1/${val.url}`, val.data, bear);
 
     if (response.status >= 400) {
