@@ -27,7 +27,7 @@ const addUser = async (email) => {
  * check if a user exists in the database.
  * if yes, then retrieve all information about this user.
  */
-const checkUser = async (email, errno) => {
+const fetchUser = async (email, errno) => {
   try {
     const result = await dbQuery(selSingleAccount, [email], errno);
     return result;
@@ -43,5 +43,5 @@ const checkUser = async (email, errno) => {
 
 module.exports = {
   addUser,
-  checkUser
+  fetchUser
 }

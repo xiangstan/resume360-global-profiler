@@ -1,8 +1,8 @@
 const express = require("express");
 const userRouter = express.Router();
-const { addUser, checkUser } = require("../functions/user.js")
+const { addUser, fetchUser } = require("../functions/user.js")
 const { dbQueryValidate } = require("../utils/db");
-const { createJwtToken, verifyJwtToken } = require("../utils/jwt.js");
+const { createJwtToken, validateAuthSession, verifyJwtToken } = require("../utils/jwt.js");
 
 userRouter.get("/", function(req, res) {
   res.send("Using User API route.");
@@ -10,7 +10,7 @@ userRouter.get("/", function(req, res) {
 
 /*** User login API */
 userRouter.post("/login", async function(req, res) {
-  let result = await checkUser(req.body.user, 1);
+  let result = await fetchUser(req.body.user, 1);
   if (dbQueryValidate(result.errno, [1])) {
     /** if this is a new account, create a user record */
     if (result.count < 1) {
@@ -34,6 +34,36 @@ userRouter.post("/login", async function(req, res) {
   }
   res.status(200).send(result);
 });
+
+/*** verify user logged in status */
+userRouter.post("/verify", async function(req, res) {
+  const bear = req.headers.authorization;
+  const token = bear.split(' ')[1];
+  const data = verifyJwtToken(token);
+  if (validateAuthSession(req)) {
+    const result = await fetchUser(req.body.user, 1);
+    let teams = {};
+    let bags = {};
+    // if (result.errno === 1 && typeof result.errmsg[0] !== "undefined") {
+    //   teams = await getNpcOneTeam(result.errmsg[0].uaid);
+    //   bags = await getUserInventory(result.errmsg[0].uaid);
+    // }
+    res.status(200).send({
+      errmsg: result.errmsg,
+      errno: 1,
+      // bags: bags,
+      // teams: teams
+    })
+  }
+  else {
+    res.status(200).send({
+      errno: 103,
+      note: "Login session",
+      data: data.errmsg,
+      req: req.body
+    })
+  }
+}) 
 
 //export this router to use in our index.js
 module.exports = userRouter;
