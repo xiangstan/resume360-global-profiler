@@ -41,6 +41,17 @@ pnpm --version
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
+# Build the project from the existing code repo
+
+```bash
+# Front end
+# From the root directory
+pnpm install
+# back end
+cd src/server
+pnpm install
+```
+
 # Create the project from scratch
 
 ```sh
