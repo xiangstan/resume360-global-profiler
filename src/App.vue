@@ -14,10 +14,14 @@ const showStore = useShowStore();
   <div>
     <NavbarView />
 
-    <main class="h-[80vh] wrapper">
-      <RouterView />
+    <main class="h-[80vh] wrapper dark:bg-slate-600">
+      <div class="mx-auto max-w-screen-lg max-lg:px-2 py-4">
+        <RouterView />
+      </div>
     </main>
+
     <LoginView v-if="showStore.loginModal" />
+
     <FooterView />
   </div>
 </template>

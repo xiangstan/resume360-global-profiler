@@ -1,7 +1,7 @@
 <template>
   <header>
     <nav class="bg-white border-gray-200 text-gray-700 dark:bg-gray-900 dark:text-slate-100">
-      <div class="max-w-6xl mx-auto px-4">
+      <div class="max-w-screen-lg mx-auto max-lg:px-2">
         <div class="flex items-center justify-between">
           <!-- logo -->
           <div>
