@@ -24,6 +24,7 @@ Resume360 Global Profiler leverages blockchain technology to create a secure and
 ## Contributor
 
 * Guanchu He: (<charlottehgc@gmail.com>)
+* Jason Liu: (<zhenqiliu.jason@gmail.com>)
 
 ## Getting Started
 

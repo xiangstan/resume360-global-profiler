@@ -63,7 +63,7 @@ export async function ajaxCall(val) {
     if (typeof axios === "undefined") {
       throw new Error("Axios not found!!");
     }
-    const token = sessionStorage.getItem("sgpToken");
+    const token = sessionStorage.getItem(import.meta.env.VITE_APP_SITE_SHORT + "Token");
     const bear = {
       headers: { Authorization: `Bearer ${token}` }
     };
