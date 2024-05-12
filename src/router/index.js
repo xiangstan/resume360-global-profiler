@@ -49,6 +49,15 @@ const router = createRouter({
         title: 'User Dashboard'
       }
     },
+    {
+      path: "/user/wallet",
+      name: "WalletView",
+      component: () => import('../views/wallet/WalletView.vue'),
+      meta: {
+        isInternal: true,
+        title: 'User Wallet'
+      }
+    },
   ]
 })
 
