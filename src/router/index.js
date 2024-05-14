@@ -76,8 +76,9 @@ router.beforeEach(async (to, from, next) => {
       const localStoredToken = sessionStorage.getItem(import.meta.env.VITE_APP_SITE_SHORT + "Token");
       if (localStoredUser === null || localStoredToken === null) {
         console.log("No saved user");
-        next("/");
         document.title = defaultPageTitle;
+        updInternal(false);
+        next({ path: '/' });
         return;
       }
       const myStoredUser = accountStore.profile.email || "";
