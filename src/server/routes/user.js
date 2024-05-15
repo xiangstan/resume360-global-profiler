@@ -42,17 +42,9 @@ userRouter.post("/verify", async function(req, res) {
   const data = verifyJwtToken(token);
   if (validateAuthSession(req)) {
     const result = await fetchUser(req.body.user, 1);
-    let teams = {};
-    let bags = {};
-    // if (result.errno === 1 && typeof result.errmsg[0] !== "undefined") {
-    //   teams = await getNpcOneTeam(result.errmsg[0].uaid);
-    //   bags = await getUserInventory(result.errmsg[0].uaid);
-    // }
     res.status(200).send({
       errmsg: result.errmsg,
-      errno: 1,
-      // bags: bags,
-      // teams: teams
+      errno: 1
     })
   }
   else {

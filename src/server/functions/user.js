@@ -4,7 +4,7 @@ const usersTable = '"sgp"."users"';
 
 const addSingleAccount = `INSERT INTO ${usersTable} ("email") VALUES ($1) RETURNING "uaid"`;
 
-const selSingleAccount = `SELECT "uaid", "email" FROM ${usersTable} WHERE "email" = $1;`;
+const selSingleAccount = `SELECT "uaid", "email", "name", "published" FROM ${usersTable} WHERE "email" = $1;`;
 
 /***
  * create a new user account

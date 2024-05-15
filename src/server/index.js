@@ -6,6 +6,7 @@ const port = process.env.BACKEND_PORT || 8100;
 
 require("dotenv").config()
 
+const resumeRoutes = require("./routes/resume.js");
 const userRoutes = require("./routes/user.js");
 
 app.use(morgan("tiny"));
@@ -21,7 +22,10 @@ app.get("/", (req, res) => {
  * user api
  */
 app.use("/api/v1/user", userRoutes);
-
+/***
+ * resume api
+ */
+app.use("/api/v1/resume", resumeRoutes);
 /**
  *  Send "Not found" for all other routes
  */
