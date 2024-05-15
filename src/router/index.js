@@ -50,6 +50,15 @@ const router = createRouter({
       }
     },
     {
+      path: "/user/resume",
+      name: "ResumeView",
+      component: () => import('../views/resume/ResumeView.vue'),
+      meta: {
+        isInternal: true,
+        title: 'User Resume'
+      }
+    },
+    {
       path: "/user/wallet",
       name: "WalletView",
       component: () => import('../views/wallet/WalletView.vue'),

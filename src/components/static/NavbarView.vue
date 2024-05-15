@@ -22,6 +22,28 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
               </svg>
             </a>
+
+            <div class="dropdown inline-block px-5 relative">
+              <a>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <title>Language Selector</title>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 01-3.827-5.802" />
+                </svg>
+              </a>
+              <ul class="dropdown-menu absolute hidden text-gray-700 pt-3">
+                <li class="">
+                  <p class="block cursor-pointer rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 whitespace-no-wrap select-none" @click="setLocale('en_US')">
+                    English
+                  </p>
+                </li>
+                <li class="">
+                  <p class="block cursor-pointer rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-4 whitespace-no-wrap select-none" @click="setLocale('zh_CN')">
+                    中文
+                  </p>
+                </li>
+              </ul>
+            </div>
+
             <a v-if="!appStore.isInternal" @click="showLoginModal" class="capitalize cursor-pointer py-2 px-3 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 hover:text-yellow-800 rounded transition duration-300">
               {{ $t('general.signin') }}
             </a>
@@ -43,7 +65,10 @@
 import { computed } from 'vue';
 import { useAppStore } from '@/stores/app';
 import { useShowStore } from '@/stores/show';
-import { useRouter } from "vue-router"
+import { useRouter } from 'vue-router';
+
+import { useI18n } from 'vue-i18n';
+const { locale } = useI18n({ useScope: "global" })
 
 const appStore = useAppStore();
 const showStore = useShowStore();
@@ -65,7 +90,6 @@ const toggleDarkMode = () => {
   appStore.setDarkMode(newMode);
   document.documentElement.classList.toggle("dark", newMode);
 }
-
 /*** open login modal */
 const showLoginModal = () => {
   showStore.updateShow({
@@ -73,7 +97,6 @@ const showLoginModal = () => {
     value: !showStore.loginModal
   })
 }
-
 /*** log off */
 const logOff = () => {
   localStorage.removeItem(import.meta.env.VITE_APP_SITE_SHORT + "User")
@@ -81,4 +104,15 @@ const logOff = () => {
   appStore.updateInternalStatus(false)
   router.push("/")
 }
+/*** choose the display language from language dropdown menu */
+const setLocale = (lang) => {
+  locale.value = lang
+  localStorage.setItem("langLocale", lang)
+}
 </script>
+
+<style scoped>
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+</style>
