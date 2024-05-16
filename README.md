@@ -1,5 +1,13 @@
 # Resume360 Global Profiler
 
+![](https://img.shields.io/static/v1?label=Version&message=0.1.0&color=success)
+
+![](https://img.shields.io/badge/NodeJS-20.11.0-336633)
+![](https://img.shields.io/static/v1?label=VueJS&message=^3.4.21&color=success)
+![](https://img.shields.io/badge/ExpressJS-^4.18.2-222222)
+![](https://img.shields.io/badge/PostgreSQL-15.6-336791)
+
+
 Welcome to **Resume360 Global profile**, a revolutionary project at the intersection of AI and Blockchain technologies. This project aims to leverage the power of decentralized ledger technology to securely register, store, and search resumes as unique non-fungible tokens (NFTs) on the blockchain.
 
 ## Project Overview
@@ -23,11 +31,15 @@ Resume360 Global Profiler leverages blockchain technology to create a secure and
 
 ## Contributor
 
-* Guanchu He: (<charlottehgc@gmail.com>)
-* Jason Liu: (<zhenqiliu.jason@gmail.com>)
+* Guanchu He: ([https://github.com/charjiaman](https://github.com/charjiaman))
+* Jason Liu: ([https://github.com/ZhenqiLiu-Jason](https://github.com/ZhenqiLiu-Jason))
+* Zhenyu Lin: ([https://github.com/zlin01](https://github.com/zlin01))
 
 ## Getting Started
 
-1. [Installation](docs/Installation.md)
+* Installation
+  1. [Front End](docs/Installation-Frontend.md)
+  1. [Back End](docs/Installation-Backend.md)
+  1. [Database](docs/Installation-Database.md)
 
 ## File Structure
