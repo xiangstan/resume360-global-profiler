@@ -1,7 +1,13 @@
 <template>
   <div>
-    Dashboard
+    <BreadCrumbs :items="bc" />
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from 'vue';
+
+import BreadCrumbs from '@/components/private/BreadCrumbs.vue';
+
+const bc = ref([]);
+</script>

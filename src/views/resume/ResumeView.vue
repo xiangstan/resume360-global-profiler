@@ -25,11 +25,30 @@
       </div>
       <!-- Experience -->
       <div class="rounded-md shadow-md p-5 bg-gray-50 dark:bg-gray-700 mb-6">
-        <h2 class="text-xl font-bold mb-6 capitalize">{{ $t('resume.experience') }}</h2>
+        <h2 class="flex items-end text-xl font-bold mb-6 capitalize gap-3">
+          {{ $t('resume.exp') }}
+          <a class="cursor-pointer hover:text-green-500" title="" data-tar="exp" @click="addNew">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+          </a>
+        </h2>
       </div>
       <!-- Education -->
-      <div class="rounded-md shadow-md p-5 bg-gray-50 dark:bg-gray-700">
-        <h2 class="text-xl font-bold mb-6 capitalize">{{ $t('resume.education') }}</h2>
+      <div class="rounded-md shadow-md p-5 bg-gray-50 dark:bg-gray-700 mb-6">
+        <h2 class="flex items-end text-xl font-bold mb-6 capitalize gap-3">
+          {{ $t('resume.edu') }}
+          <a class="cursor-pointer hover:text-green-500" title="" data-tar="edu" @click="addNew">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+          </a>
+        </h2>
+      </div>
+      <div>
+        <button class="rounded-md shadow-md px-5 py-3 bg-emerald-400 border-emerald-600 hover:bg-green-600 hover:border-green-800 text-white capitalize">
+          {{ $t('resume.publish') }}
+        </button>
       </div>
     </form>
   </div>
@@ -55,7 +74,7 @@ const browser = browserDetect();
 
 const items = ref({});
 const bc = ref([
-  { name: 'Resume', url: '' }
+  { name: 'resume', url: '' }
 ]);
 const isLoading = ref(true);
 const isNoResume = ref(false);
@@ -90,6 +109,10 @@ const initFetch = async () => {
 const startResume = () => {
   isNoResume.value = false;
   initResume.value = true;
+}
+/*** open new experience/education form */
+const addNew = (e) => {
+  console.log(e.currentTarget.dataset)
 }
 
 onMounted(() => {
