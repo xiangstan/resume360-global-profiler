@@ -48,56 +48,20 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 pnpm install
 ```
 
-# Create the project from scratch
-
-```sh
-pnpm create vue@latest
-```
-
-* Project name: ... chainlink-js
-* Add TypeScript? ... No
-* Add JSX Support? ... No
-* Add Vue Router for Single Page Application development? ... Yes
-* Add Pinia for state management? ... Yes
-* Add Vitest for Unit Testing? ... No
-* Add an End-to-End Testing Solution? » No
-* Add ESLint for code quality? ... Yes
-* Add Prettier for code formatting? ... Yes
-* Add Vue DevTools 7 extension for debugging? (experimental) ... No
-
-# Libraries
-
-## Install TailwindCSS
-
-With `pnpm`
-
-```sh
-pnpm install -D tailwindcss@latest postcss@latest autoprefixer@latest
-npx tailwindcss init -p
-```
-
-With `yarn`
-
-```sh
-vue add tailwind
-```
-
-## Install i18n
-
-```sh
-pnpm add vue-i18n@9
-```
-
-## Install Google SSO
-
-```sh
-pnpm add vue3-google-login
-```
+To build the project from scratch, or building any VueJS/TailwindCSS project. Following the this [guide](Build-From-Scratch.md).
 
 # Project Setup
 
-```sh
-pnpm install
+## Create the environment variables
+
+Within the root directory, past the following code and modify the value within `<>` to your own.
+
+```
+VITE_APP_GOOGLE_CLIENT_ID="<Google SSO Client ID>"
+VITE_APP_IMGURL="/img/"
+VITE_APP_PROXY="<Backend URL>"
+VITE_APP_SITE_SHORT="rgp"
+VITE_APP_SITE_LONG="Resume360 Global Profiler"
 ```
 
 ## Compile and Hot-Reload for Development
