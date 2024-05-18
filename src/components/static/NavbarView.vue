@@ -1,10 +1,15 @@
 <template>
   <header>
     <nav class="bg-white border-gray-200 text-gray-700 dark:bg-gray-900 dark:text-slate-100" :class="hasNavBorder">
-      <div class="max-w-screen-lg mx-auto max-lg:px-2">
+      <div :class="isInternal ? 'px-2' : 'max-w-screen-lg mx-auto max-lg:px-2'">
         <div class="flex items-center justify-between">
           <!-- logo -->
-          <div>
+          <div class="flex items-center justify-start gap-10">
+            <div v-if="isInternal" id="hamburger-icon" class="hamburger px-3 py-4 cursor-pointer" :class="isAsideShow ? 'is-active' : ''" @click="toggleHamburger">
+              <span class="line bg-gray-700 dark:bg-slate-100"></span>
+              <span class="line bg-gray-700 dark:bg-slate-100"></span>
+              <span class="line bg-gray-700 dark:bg-slate-100"></span>
+            </div>
             <a href="#" class="flex items-center py-5 px-2 text-gray-700">
               <img src="https://d1ex66uhwrtho1.cloudfront.net/img/outraverse-logo.png" class="w-6 h-6 mr-1 text-blue-400" alt="Outraverse Logo" />
               <span class="font-bold">Outraverse</span>
@@ -78,7 +83,12 @@ const router = useRouter()
 const isDarkMode = computed(() => {
   return appStore.isDarkMode
 })
-
+const isInternal = computed(() => {
+  return appStore.isInternal
+})
+const isAsideShow = computed(() => {
+  return showStore.isAside;
+})
 const hasNavBorder = computed(() => {
   return (appStore.isInternal) ? "border-b-2 border-slate-200" : ""
 })
@@ -109,10 +119,42 @@ const setLocale = (lang) => {
   locale.value = lang
   localStorage.setItem("langLocale", lang)
 }
+
+const toggleHamburger = () => {
+  showStore.updateShow({
+    key: "isAside",
+    value: !showStore.isAside
+  })
+}
 </script>
 
 <style scoped>
 .dropdown:hover .dropdown-menu {
   display: block;
+}
+.hamburger .line{
+  width: 20px;
+  height: 4px;
+  display: block;
+  margin: 2px auto;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.hamburger.is-active .line:nth-child(2){
+  opacity: 0;
+}
+
+.hamburger.is-active .line:nth-child(1){
+  -webkit-transform: translateY(6px) rotate(45deg);
+  -ms-transform: translateY(6px) rotate(45deg);
+  -o-transform: translateY(6px) rotate(45deg);
+  transform: translateY(6px) rotate(45deg);
+}
+.hamburger.is-active .line:nth-child(3){
+  -webkit-transform: translateY(-6px) rotate(-45deg);
+  -ms-transform: translateY(-6px) rotate(-45deg);
+  -o-transform: translateY(-6px) rotate(-45deg);
+  transform: translateY(-6px) rotate(-45deg);
 }
 </style>

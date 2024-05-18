@@ -4,6 +4,7 @@ import { defineStore } from "pinia"
 export const useShowStore = defineStore("showStore", {
   state: () => {
     return {
+      isAside: false,
       isDialog: false,
       isLoading: false,
       loginModal: false
