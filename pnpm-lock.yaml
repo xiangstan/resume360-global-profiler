@@ -14,6 +14,9 @@ importers:
       ethers:
         specifier: ^6.12.1
         version: 6.12.1
+      mosha-vue-toastify:
+        specifier: ^1.0.23
+        version: 1.0.23
       pinia:
         specifier: ^2.1.7
         version: 2.1.7(vue@3.4.26)
@@ -942,6 +945,9 @@ packages:
   minipass@7.1.0:
     resolution: {integrity: sha512-oGZRv2OT1lO2UF1zUcwdTb3wqUwI0kBGTgt/T7OdSj6M6N5m3o5uPf0AIW6lVxGGoiWUR7e2AwTE+xiwK8WQig==}
     engines: {node: '>=16 || 14 >=14.17'}
+
+  mosha-vue-toastify@1.0.23:
+    resolution: {integrity: sha512-K9fij3e3H+E/Lj82ISrgmyKrtM5RNmtZC/KG/KH47+oZGmzAkN/Zuz39kBdT/Mp8OxaHuIWQntEUMP+HdmK1xA==}
 
   ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
@@ -2185,6 +2191,8 @@ snapshots:
       brace-expansion: 2.0.1
 
   minipass@7.1.0: {}
+
+  mosha-vue-toastify@1.0.23: {}
 
   ms@2.1.2: {}
 

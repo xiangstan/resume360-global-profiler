@@ -37,6 +37,14 @@ npm install -g pnpm
 pnpm --version
 ```
 
+## Upgrade PNPM package manager
+
+```bash
+pnpm add -g pnpm
+# or if on windows, do the following
+npm install -g pnpm
+```
+
 # Customize configuration
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
