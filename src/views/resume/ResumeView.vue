@@ -10,7 +10,7 @@
         <h2 class="text-xl font-bold mb-6">{{ $t('general.basic') + $t(' ') + $t('general.information') }}</h2>
         <div class="grid grid-cols-2 gap-8">
           <div class="relative z-0 w-full mb-5 group">
-            <input type="name" name="floating_name" id="floating_name" class="block py-2.5 px-0 w-full text-md text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+            <input v-model="formData.name" type="name" name="floating_name" id="floating_name" class="block py-2.5 px-0 w-full text-md text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required @blur="saveName" />
             <label for="floating_name" class="peer-focus:font-medium absolute text-md text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 capitalize">
               {{ $t('general.fullname') }}
             </label>
@@ -55,30 +55,42 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
-
+import { onMounted, reactive, ref } from 'vue';
 import { useMyAccount } from '@/stores/account';
 
-import { ajaxCall } from '@/utils/ajax';
+import { createToast } from 'mosha-vue-toastify';
+import 'mosha-vue-toastify/dist/style.css';
+
+import { ajaxCall, ajaxCompare, ajaxErrShow } from '@/utils/ajax';
 import browserDetect from '@/utils/browser';
+import { objClone } from '@/utils/objects';
 
 import BreadCrumbs from '@/components/private/BreadCrumbs.vue';
 import IsLoading from '@/components/static/IsLoading.vue';
 
 const accountStore = useMyAccount();
+const browser = browserDetect();
 const myStoredUaid = accountStore.profile.uaid || 0;
 const myStoredUser = accountStore.profile.email || '';
 const myStoredName = accountStore.profile.name;
 const localStoredUser = localStorage.getItem(import.meta.env.VITE_APP_SITE_SHORT + "User");
-const browser = browserDetect();
+
+const preFormDataset = {
+  browser: browser.browser.name,
+  email: myStoredUser,
+  uaid: myStoredUaid
+};
 
 const items = ref({});
 const bc = ref([
   { name: 'resume', url: '' }
 ]);
+const formData = reactive(objClone(preFormDataset));
 const isLoading = ref(true);
 const isNoResume = ref(false);
 const initResume = ref(false);
+const newEduForm = ref(false);
+const newExpForm = ref(false);
 
 /***
  * methods
@@ -94,6 +106,7 @@ const initFetch = async () => {
         url: "resume/fetch"
       });
       items.value = result;
+      formData.name = myStoredName;
       initResume.value = true;
     }
     else {
@@ -112,7 +125,46 @@ const startResume = () => {
 }
 /*** open new experience/education form */
 const addNew = (e) => {
-  console.log(e.currentTarget.dataset)
+  if (myStoredName) {
+    const dataSet = e.currentTarget.dataset
+    console.log(dataSet)
+  }
+  else {
+    createToast('You need to save your name first', {
+      showIcon: true,
+      type: 'warning',
+      position: 'bottom-right'
+    });
+  }
+}
+/*** save user's name' */
+const saveName = async () => {
+  if (typeof formData.name !== "undefined" && formData.name.length > 0 && formData.name !== myStoredName) {
+    const ajaxData = objClone(formData, {
+      method: "name",
+      value: formData.name
+    });
+    const result = await ajaxCall({
+      data: ajaxData,
+      url: "user/update"
+    });
+    const err = ajaxErrShow(result)
+    console.log(err)
+    if (ajaxCompare(result.errno, [101])) {
+      accountStore.updateAccountData({
+        key: "profile",
+        value: result.profile.errmsg[0]
+      });
+    }
+    createToast(err.message, {
+      showIcon: true,
+      type: err.status,
+      position: "bottom-right"
+    })
+  }
+  else {
+    console.log("Nothing changed")
+  }
 }
 
 onMounted(() => {

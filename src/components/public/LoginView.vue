@@ -17,7 +17,7 @@ import { useMyAccount } from '@/stores/account';
 import { useShowStore } from '@/stores/show';
 
 import { ajaxCall, ajaxCompare } from '@/utils/ajax';
-import browserDetect from '@/utils/browser'
+import browserDetect from '@/utils/browser';
 
 const browser = browserDetect();
 const myAccount = useMyAccount();
