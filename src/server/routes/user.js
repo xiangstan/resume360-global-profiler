@@ -1,6 +1,6 @@
 const express = require("express");
 const userRouter = express.Router();
-const { addUser, fetchUser } = require("../functions/user.js")
+const { addUser, fetchUser, updateUser } = require("../functions/user.js")
 const { dbQueryValidate } = require("../utils/db");
 const { createJwtToken, validateAuthSession, verifyJwtToken } = require("../utils/jwt.js");
 
@@ -34,6 +34,17 @@ userRouter.post("/login", async function(req, res) {
   }
   res.status(200).send(result);
 });
+
+/*** update user resume information */
+userRouter.post("/update", async function(req, res) {
+  let result = {};
+  const updateMethods = {
+    "name": result = await updateUser(req.body),
+    func2: () => console.log('Function 2 executed'),
+    func3: () => console.log('Function 3 executed')
+  };
+  return res.status(200).send(result);
+})
 
 /*** verify user logged in status */
 userRouter.post("/verify", async function(req, res) {

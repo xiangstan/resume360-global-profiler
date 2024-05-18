@@ -1,6 +1,7 @@
-const { dbQuery } = require("../utils/db");
+const { dbQuery, dbQueryValidate } = require("../utils/db");
+const { DB_SCHEMA } = process.env;
 
-const usersTable = '"sgp"."users"';
+const usersTable = `"${DB_SCHEMA}"."users"`;
 
 const addSingleAccount = `INSERT INTO ${usersTable} ("email") VALUES ($1) RETURNING "uaid"`;
 
@@ -41,7 +42,30 @@ const fetchUser = async (email, errno) => {
   }
 }
 
+/***
+ * update user's selected property
+ */
+const updateUser = async (val) => {
+  try {
+    const result = await dbQuery(`UPDATE ${usersTable} SET ${val.method}=$1 WHERE "uaid"=$2`, [val.value, val.uaid], 101);
+    if (dbQueryValidate(result.errno, [101])) {
+      result.note = 'User profile';
+      result.status = 'success';
+      result.profile = await fetchUser(val.email, 1);
+    }
+    return result;
+  }
+  catch (error) {
+    console.error("Error: " + error)
+    return {
+      errmsg: error,
+      errno: -1
+    }
+  }
+}
+
 module.exports = {
   addUser,
-  fetchUser
+  fetchUser,
+  updateUser
 }
