@@ -58,6 +58,16 @@ pnpm install
 
 To build the project from scratch, or building any VueJS/TailwindCSS project. Following the this [guide](Build-From-Scratch.md).
 
+# Enable Google SSO
+
+1. Navigate to [https://cloud.google.com/architecture/identity/single-sign-on](https://cloud.google.com/architecture/identity/single-sign-on).
+1. Click on **Console** at the top right corner.
+1. Click on **APIs & Services** from the **Quick access** section.
+1. Click on **Credentials** from the left side menu.
+1. Click on **+ CREATE CREDENTIALS** and choose OAuth client ID or choose an existing ID from your inventory.
+
+:exclamation: Setup Authorized JavaScript origins with ***http://localhost:8101*** and ***http://localhost***. Port 8101 is defined in `vite.config.js`
+
 # Project Setup
 
 ## Create the environment variables
