@@ -2,12 +2,12 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const morgan = require("morgan");
-const port = process.env.BACKEND_PORT || 8100;
 
 require("dotenv").config()
 
 const resumeRoutes = require("./routes/resume.js");
 const userRoutes = require("./routes/user.js");
+const port = process.env.BACKEND_PORT || 8100;
 
 app.use(morgan("tiny"));
 app.use(cors());
