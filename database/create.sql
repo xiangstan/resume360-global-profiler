@@ -15,7 +15,7 @@ COMMENT ON DATABASE "potg" IS 'Database for Resume360 Global Profiler';
 -- Connect to the 'resume' database
 \c resume;
 
-CREATE SCHEMA IF NOT EXISTS "sgp" AUTHORIZATION 'akuma';
+CREATE SCHEMA IF NOT EXISTS "sgp" AUTHORIZATION akuma;
 
 -- User table
 CREATE TABLE "sgp"."users" (
@@ -30,7 +30,7 @@ COMMENT ON COLUMN "sgp"."users"."uaid" IS 'primary key';
 COMMENT ON COLUMN "sgp"."users"."email" IS 'user email address';
 
 -- Set the owner of the "users" table to 'akuma'
-ALTER TABLE "sgp".* OWNER TO akuma;
+ALTER TABLE "sgp"."users" OWNER TO akuma;
 
 -- Jobs table
 CREATE TABLE "sgp"."jobs" (
