@@ -31,9 +31,9 @@ Resume360 Global Profiler leverages blockchain technology to create a secure and
 
 ## Contributor
 
-* Guanchu He: ([https://github.com/charjiaman](https://github.com/charjiaman))
 * Jason Liu: ([https://github.com/ZhenqiLiu-Jason](https://github.com/ZhenqiLiu-Jason))
 * Zhenyu Lin: ([https://github.com/zlin01](https://github.com/zlin01))
+* Junxian Zhao: ([https://github.com/lotusknight](https://github.com/lotusknight))
 
 ## Getting Started
 
@@ -43,3 +43,11 @@ Resume360 Global Profiler leverages blockchain technology to create a secure and
   1. [Database](docs/Installation-Database.md)
 
 ## File Structure
+
+| Directory | Comment |
+|-- |-- |
+| /contracts | Solidity smart contracts |
+| /database | PostgreSQL database schema |
+| /docs | Documentation |
+| /src | Code base. Most front-end script with VueJS v3 framework |
+| /src/server | Backend script |

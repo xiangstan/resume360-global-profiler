@@ -17,9 +17,9 @@ const showStore = useShowStore();
   <div>
     <NavbarView />
 
-    <main class="h-[80vh] wrapper dark:bg-slate-600 flex">
+    <main class="min-h-[80vh] wrapper dark:bg-slate-600 flex">
       <AsideView v-if="appStore.isInternal" />
-      <div class="p-4 flex-1">
+      <div class="p-4 mb-6 flex-1">
         <RouterView />
       </div>
     </main>
