@@ -37,20 +37,12 @@ userRouter.post("/login", async function(req, res) {
 
 /*** update user resume information */
 userRouter.post("/update", async function(req, res) {
-  let result = {};
-  const updateMethods = {
-    "name": result = await updateUser(req.body),
-    func2: () => console.log('Function 2 executed'),
-    func3: () => console.log('Function 3 executed')
-  };
+  let result = await updateUser(req.body);
   return res.status(200).send(result);
-})
+});
 
 /*** verify user logged in status */
 userRouter.post("/verify", async function(req, res) {
-  const bear = req.headers.authorization;
-  const token = bear.split(' ')[1];
-  const data = verifyJwtToken(token);
   if (validateAuthSession(req)) {
     const result = await fetchUser(req.body.user, 1);
     res.status(200).send({
@@ -62,7 +54,6 @@ userRouter.post("/verify", async function(req, res) {
     res.status(200).send({
       errno: 103,
       note: "Login session",
-      data: data.errmsg,
       req: req.body
     })
   }
