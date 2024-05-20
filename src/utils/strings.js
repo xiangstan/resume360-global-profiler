@@ -27,3 +27,16 @@ export const shortenString = (str) => {
     return str;
   }
 }
+/***
+ * display character count of textarea
+ */ 
+export const textCount = (text, max) => {
+  let count = 0
+  if (typeof text !== "undefined" && text !== null) {
+    count = text.length
+  }
+  else {
+    count = 0
+  }
+  return count + " / " + max
+}
