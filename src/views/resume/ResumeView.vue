@@ -7,7 +7,9 @@
     </p>
     <form v-else-if="initResume">
       <div class="rounded-md shadow-md p-5 bg-gray-50 dark:bg-gray-700 mb-6">
-        <h2 class="text-xl font-bold mb-6">{{ $t('general.basic') + $t(' ') + $t('general.information') }}</h2>
+        <h2 class="text-xl font-bold mb-6 capitalize">
+          {{ $t('general.basic') + $t(' ') + $t('general.information') }}
+        </h2>
         <div class="grid grid-cols-2 gap-8">
           <div class="relative z-0 w-full mb-5 group">
             <input v-model="formData.name" type="name" name="floating_name" id="floating_name" class="block py-2.5 px-0 w-full text-md text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required @blur="saveName" />
@@ -27,26 +29,59 @@
       <div class="rounded-md shadow-md p-5 bg-gray-50 dark:bg-gray-700 mb-6">
         <h2 class="flex items-end text-xl font-bold mb-6 capitalize gap-3">
           {{ $t('resume.exp') }}
-          <a class="cursor-pointer hover:text-green-500" title="" data-tar="exp" @click="addNew">
+          <a v-if="!showForm.exp" class="cursor-pointer hover:text-green-500" title="Add a new Working Experience" data-tar="exp" @click="addNew">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
             </svg>
           </a>
+          <a v-else data-tar="exp"  class="cursor-pointer hover:text-green-500" @click="addNew">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+          </a>
         </h2>
+        <div class="mb-5">
+          <ErrorRecord v-if="+items.exp.errno !== 1" />
+          <NoRecord v-else-if="+items.exp.count < 1" />
+          <template v-else>
+            <div v-for="(e, idx) in items.exp.errmsg" :key="idx">
+              <ExpRecord
+                :callback="updateRecords"
+                method="exp"
+                :job="e"
+              />
+            </div>
+          </template>
+        </div>
+        <NewRecord v-if="showForm.exp" method="exp" key="exp" :callback="updateRecords" />
       </div>
       <!-- Education -->
       <div class="rounded-md shadow-md p-5 bg-gray-50 dark:bg-gray-700 mb-6">
         <h2 class="flex items-end text-xl font-bold mb-6 capitalize gap-3">
           {{ $t('resume.edu') }}
-          <a class="cursor-pointer hover:text-green-500" title="" data-tar="edu" @click="addNew">
+          <a v-if="!showForm.edu" class="cursor-pointer hover:text-green-500" title="Add a new School Record" data-tar="edu" @click="addNew">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <title>Create a new school record</title>
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
             </svg>
           </a>
+          <a v-else class="cursor-pointer hover:text-green-500" data-tar="edu" @click="addNew">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+          </a>
         </h2>
+        <div class="mb-5">
+          <ErrorRecord v-if="+items.edu.errno !== 1" />
+          <NoRecord v-else-if="+items.edu.count < 1" />
+          <template v-else>
+            {{ items.edu.errmsg }}
+          </template>
+        </div>
+        <NewRecord v-if="showForm.edu" method="edu" key="edu" :callback="updateRecords" />
       </div>
       <div>
-        <button class="rounded-md shadow-md px-5 py-3 bg-emerald-400 border-emerald-600 hover:bg-green-600 hover:border-green-800 text-white capitalize">
+        <button class="cursor-pointer rounded-md shadow-md px-5 py-3 bg-emerald-400 border-emerald-600 hover:bg-green-600 hover:border-green-800 text-white capitalize disabled:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50" :disabled="isPublishDisabled">
           {{ $t('resume.publish') }}
         </button>
       </div>
@@ -55,7 +90,7 @@
 </template>
 
 <script setup>
-import { onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useMyAccount } from '@/stores/account';
 
 import { createToast } from 'mosha-vue-toastify';
@@ -66,7 +101,11 @@ import browserDetect from '@/utils/browser';
 import { objClone } from '@/utils/objects';
 
 import BreadCrumbs from '@/components/private/BreadCrumbs.vue';
+import ErrorRecord from '@/components/commons/ErrorRecord.vue';
+import ExpRecord from './ExpRecord.vue';
 import IsLoading from '@/components/static/IsLoading.vue';
+import NewRecord from '@/components/private/NewRecord.vue';
+import NoRecord from '@/components/commons/NoRecord.vue';
 
 const accountStore = useMyAccount();
 const browser = browserDetect();
@@ -89,9 +128,18 @@ const formData = reactive(objClone(preFormDataset));
 const isLoading = ref(true);
 const isNoResume = ref(false);
 const initResume = ref(false);
-const newEduForm = ref(false);
-const newExpForm = ref(false);
-
+const showForm = reactive({
+  edu: false,
+  exp: false
+});
+const isPublishDisabled = computed(() => {
+  let temp = true;
+  const dataSet = items.value;
+  if (typeof dataSet.edu !== 'undefined' && ajaxCompare(dataSet.edu.errno, [1]) && +dataSet.edu.count > 0 && typeof dataSet.exp !== 'undefined' && ajaxCompare(dataSet.eexp.errno, [1]) && +dataSet.eexp.count > 0 ) {
+    temp = false;
+  }
+  return temp;
+})
 /***
  * methods
  */
@@ -126,8 +174,8 @@ const startResume = () => {
 /*** open new experience/education form */
 const addNew = (e) => {
   if (myStoredName) {
-    const dataSet = e.currentTarget.dataset
-    console.log(dataSet)
+    const dataSet = e.currentTarget.dataset;
+    showForm[dataSet.tar] = !showForm[dataSet.tar];
   }
   else {
     createToast('You need to save your name first', {
@@ -149,7 +197,6 @@ const saveName = async () => {
       url: "user/update"
     });
     const err = ajaxErrShow(result)
-    console.log(err)
     if (ajaxCompare(result.errno, [101])) {
       accountStore.updateAccountData({
         key: "profile",
@@ -165,6 +212,11 @@ const saveName = async () => {
   else {
     console.log("Nothing changed")
   }
+}
+/*** update records from NewRecord template */
+const updateRecords = (result) => {
+  items.value[result.method] = result.value;
+  showForm[result.method] = false;
 }
 
 onMounted(() => {
