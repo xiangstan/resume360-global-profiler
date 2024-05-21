@@ -1,6 +1,7 @@
 const express = require("express");
 const resumeRouter = express.Router();
-const { fetchExp, fetchEdu, updateExp } = require("../functions/resume");
+const { fetchEdu, updateEdu } = require("../functions/education");
+const { fetchExp, updateExp } = require("../functions/experience.js");
 const { validateAuthSession } = require("../utils/jwt.js");
 
 resumeRouter.get("/", function(req, res) {
