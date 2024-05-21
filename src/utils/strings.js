@@ -1,6 +1,4 @@
-/***
- * capitalize the first letter of the slected word
- */
+/*** capitalize the first letter of the slected word */
 export const cap1stLetter = (data, ops) => {
   const words = data.split(ops);
   for (let i = 0; i < words.length; i++) {
@@ -8,9 +6,7 @@ export const cap1stLetter = (data, ops) => {
   }
   return words.join(ops)
 }
-/***
- * hide the middle of text string
- */
+/*** hide the middle of text string */
 export const shortenString = (str) => {
   if (str.length > 10) {
     // Extract the first four characters
@@ -27,9 +23,14 @@ export const shortenString = (str) => {
     return str;
   }
 }
-/***
- * display character count of textarea
- */ 
+/*** convert all \n inside a string to <br /> */
+export const nToBr = (str) => {
+  if (typeof str !== 'string' || str.length < 1) {
+    return '';
+  }
+  return str.replace(/\n/g, '<br>');
+}
+/*** display character count of textarea */ 
 export const textCount = (text, max) => {
   let count = 0
   if (typeof text !== "undefined" && text !== null) {
