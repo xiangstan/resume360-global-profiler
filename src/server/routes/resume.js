@@ -2,6 +2,7 @@ const express = require("express");
 const resumeRouter = express.Router();
 const { fetchEdu, updateEdu } = require("../functions/education");
 const { fetchExp, updateExp } = require("../functions/experience.js");
+const { uploadImage } = require("../functions/image.js");
 const { validateAuthSession } = require("../utils/jwt.js");
 
 resumeRouter.get("/", function(req, res) {
@@ -45,8 +46,21 @@ resumeRouter.post("/update", async function(req, res) {
       req: req.body
     })
   }
-})
+});
 
+resumeRouter.post("/upload", async function(req, res) {
+  if (validateAuthSession(req)) {
+    const result = await uploadImage(req.body);
+    return res.status(200).send(result);
+  }
+  else {
+    res.status(200).send({
+      errno: 103,
+      note: "Login session",
+      req: req.body
+    })
+  }
+})
 
 /*** Export this router to use in our index.js */
 module.exports = resumeRouter;
