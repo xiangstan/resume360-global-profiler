@@ -12,7 +12,9 @@ const port = process.env.BACKEND_PORT || 8100;
 app.use(morgan("tiny"));
 app.use(cors());
 // parse requests of content-type - application/json
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+// Increase payload limit to 50MB (adjust as needed)
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 app.get("/", (req, res) => {
   res.send("Hello from Space! 🚀");
