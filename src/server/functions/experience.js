@@ -2,15 +2,11 @@ const { dbQuery, dbQueryValidate } = require("../utils/db");
 const { DB_SCHEMA } = process.env;
 
 const expTable = `${DB_SCHEMA}.jobs`;
-const eduTable = `${DB_SCHEMA}.education`;
 
 const srcUserExp = `SELECT "uaid", "title", "company", "experience", "start", "end" FROM ${expTable} WHERE "uaid" = $1;`;
-const srcUserEdu = `SELECT "uaid", "degree", "school", "achievement", "start", "end" FROM ${eduTable} WHERE "uaid" = $1;`;
 
 const expColsPri = ["uaid", "title", "start"];
 const expColsOther = ["company", "experience", "end"];
-const eduColsPri = ["uaid", "degree", "start"];
-const eduColsOther = ["school", "achievement", "end"];
 
 /*** create a new working experience record */
 const addExp = async (val) => {
@@ -77,24 +73,6 @@ const fetchExp = async (id, errno) => {
   }
 }
 /***
- * check if a user's education exists in the database.
- * if yes, then retrieve all information about this user's acadmic background.
- */
-const fetchEdu = async (email, errno) => {
-  try {
-    const result = await dbQuery(srcUserEdu, [email], errno);
-    return result;
-  }
-  catch (error) {
-    console.error("Error: " + error)
-    return {
-      errmsg: error,
-      errno: -1
-    }
-  }
-}
-
-/***
  * update user's experience data.
  * this function will call either add or delete a experience record.
  */
@@ -119,7 +97,6 @@ const updateExp = async (val) => {
 }
 
 module.exports = {
-  fetchEdu,
   fetchExp,
   updateExp
 }
