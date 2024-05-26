@@ -2,7 +2,7 @@
   <div class="border-b-2 border-gray-200 dark:border-gray-600 mb-3 py-4 px-6 hover:bg-gray-200 dark:hover:bg-gray-600">
     <div class="flex items-center justify-between">
       <h3 class="font-bold text-lg flex items-center justify-start group">
-        <span class="mr-1">{{ job.title }}</span>
+        <span class="mr-1">{{ degree.degree }}</span>
         <a class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer" title="Delete selected record" @click="removeRecord">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-rose-600">
             <title>Delete selected record</title>
@@ -11,16 +11,16 @@
         </a>
       </h3>
       <span class="italic hidden md:inline-block">
-        {{ getDate(job.start) }} - {{ (job.end) ? getDate(job.end) : 'Present' }}
+        {{ getDate(degree.start) }} - {{ (degree.end) ? getDate(degree.end) : 'Present' }}
       </span>
     </div>
     <p class="italic md:hidden">
-      {{ getDate(job.start) }} - {{ (job.end) ? getDate(job.end) : 'Present' }}
+      {{ getDate(degree.start) }} - {{ (degree.end) ? getDate(degree.end) : 'Present' }}
     </p>
     <p class="w-full mb-3">
-      {{ job.company }}
+      {{ degree.school }}
     </p>
-    <p class="w-full" v-html="prettyPrintText(job.experience)" />
+    <p class="w-full" v-html="prettyPrintText(degree.achievement)" />
   </div>
 </template>
 
@@ -50,15 +50,15 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  job: {
+  degree: {
     type: Object,
     default: () => {
       return {
-        company: 'default company',
+        school: 'default school',
         end: null,
-        experience: 'Nothing to see here.',
+        achievement: 'Nothing to see here.',
         start: '1964-01-01',
-        title: '',
+        degree: '',
       }
     }
   }
@@ -73,11 +73,11 @@ const getDate = (date) => {
 const prettyPrintText = (text) => {
   return nToBr(text);
 }
-/*** remove a selected experience record */
+/*** remove a selected education record */
 const removeRecord = async () => {
-  const ajaxData = objClone(props.job, {
+  const ajaxData = objClone(props.degree, {
       browser: browser.browser.name,
-      method: "exp",
+      method: "edu",
       uaid: myStoredUaid,
       user: myStoredUser,
       value: "remove"

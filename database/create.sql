@@ -22,11 +22,13 @@ CREATE TABLE "sgp"."users" (
   "uaid" SERIAL PRIMARY KEY,
   "email" VARCHAR(255) UNIQUE NOT NULL,
   "name" VARCHAR(255) DEFAULT NULL,
+  "img" VARCHAR(64) DEFAULT NULL,
   "published" BOOLEAN NOT NULL DEFAULT false
 );
 -- Add comments to the table and columns
 COMMENT ON TABLE "sgp"."users" IS 'User table of resume';
 COMMENT ON COLUMN "sgp"."users"."uaid" IS 'primary key';
+COMMENT ON COLUMN "sgp"."users"."img" IS 'users pinata profile image IPFS url';
 COMMENT ON COLUMN "sgp"."users"."email" IS 'user email address';
 
 -- Set the owner of the "users" table to 'akuma'

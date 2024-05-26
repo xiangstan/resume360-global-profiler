@@ -75,7 +75,13 @@
           <ErrorRecord v-if="+items.edu.errno !== 1" />
           <NoRecord v-else-if="+items.edu.count < 1" />
           <template v-else>
-            {{ items.edu.errmsg }}
+            <div v-for="(s, idx) in items.edu.errmsg" :key="idx">
+              <EduRecord
+                :callback="updateRecords"
+                method="edu"
+                :degree="s"
+              />
+            </div>
           </template>
         </div>
         <NewRecord v-if="showForm.edu" method="edu" key="edu" :callback="updateRecords" />
@@ -101,6 +107,7 @@ import browserDetect from '@/utils/browser';
 import { objClone } from '@/utils/objects';
 
 import BreadCrumbs from '@/components/private/BreadCrumbs.vue';
+import EduRecord from './EduRecord.vue';
 import ErrorRecord from '@/components/commons/ErrorRecord.vue';
 import ExpRecord from './ExpRecord.vue';
 import IsLoading from '@/components/static/IsLoading.vue';
@@ -135,7 +142,7 @@ const showForm = reactive({
 const isPublishDisabled = computed(() => {
   let temp = true;
   const dataSet = items.value;
-  if (typeof dataSet.edu !== 'undefined' && ajaxCompare(dataSet.edu.errno, [1]) && +dataSet.edu.count > 0 && typeof dataSet.exp !== 'undefined' && ajaxCompare(dataSet.eexp.errno, [1]) && +dataSet.eexp.count > 0 ) {
+  if (typeof dataSet.edu !== 'undefined' && ajaxCompare(dataSet.edu.errno, [1]) && +dataSet.edu.count > 0 && typeof dataSet.exp !== 'undefined' && ajaxCompare(dataSet.exp.errno, [1]) && +dataSet.exp.count > 0 ) {
     temp = false;
   }
   return temp;
