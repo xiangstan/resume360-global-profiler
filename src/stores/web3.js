@@ -41,14 +41,25 @@ export const useWeb3Store = defineStore("web3Store", {
       }
     },
     /*** disconnect the current wallet */
-    discounnectWallet() {
-      this.getAddress = '';
-      this.chainId = 0;
-      this.chainName = '';
-      this.getProvider = null;
-      this.getSigner = null;
-      this.getBalance = 0;
-      this.isConnected = false;
+    async discounnectWallet() {
+      try {
+        if (window.ethereum) {
+          this.getAddress = '';
+          this.chainId = 0;
+          this.chainName = '';
+          this.getProvider = null;
+          this.getSigner = null;
+          this.getBalance = 0;
+          this.isConnected = false;
+          await window.ethereum.request({
+            method: "eth_requestAccounts",
+            params: [{eth_accounts: {}}]
+          })
+        }
+      }
+      catch(error) {
+        console.error('Error disconnecting from MetaMask:', error);
+      }
     },
     /*** update any root value of showStore */
     updateData(data) {
