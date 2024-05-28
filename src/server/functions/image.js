@@ -21,7 +21,7 @@ const uploadImage = async (val) => {
     else {
       const imageFormat = matches[1]; // 'png', 'jpeg', 'jpg', 'webp'
       const base64Data = val.value.replace(/^data:image\/(png|jpeg|jpg|webp);base64,/, "");
-      let result = await pinata.uploadFile(base64Data, val.uaid, val.user, imageFormat);
+      let result = await pinata.uploadImgFile(base64Data, val.uaid, val.user, imageFormat);
       if (dbQueryValidate(result.errno, [101])) {
         console.log(result)
         result = await updateUser({
