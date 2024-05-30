@@ -7,6 +7,8 @@ const addSingleAccount = `INSERT INTO ${usersTable} ("email") VALUES ($1) RETURN
 
 const selSingleAccount = `SELECT "uaid", "email", "name", "img", "published" FROM ${usersTable} WHERE "email" = $1;`;
 
+const selUserInfo = `SELECT "email", "name", "img" FROM ${usersTable} WHERE "uaid" = $1;`;
+
 /***
  * create a new user account
  */
@@ -28,10 +30,14 @@ const addUser = async (email) => {
  * check if a user exists in the database.
  * if yes, then retrieve all information about this user.
  */
-const fetchUser = async (email, errno) => {
+const fetchUser = async (user, errno) => {
   try {
-    const result = await dbQuery(selSingleAccount, [email], errno);
-    return result;
+    if (!isNaN(user)) {
+      return await dbQuery(selUserInfo, [user], errno);
+    }
+    else {
+      return await dbQuery(selSingleAccount, [user], errno);
+    }
   }
   catch (error) {
     console.error("Error: " + error)
