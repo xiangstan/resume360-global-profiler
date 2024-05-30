@@ -5,6 +5,8 @@ const eduTable = `${DB_SCHEMA}.education`;
 
 const srcUserEdu = `SELECT "uaid", "degree", "school", "achievement", "start", "end" FROM ${eduTable} WHERE "uaid" = $1;`;
 
+const srcUserEduBrief = `SELECT "degree" AS "d", "school" AS "s", CASE WHEN "end" IS NULL THEN EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM "start") ELSE EXTRACT(YEAR FROM "end") - EXTRACT(YEAR FROM "start") END AS "y" FROM ${eduTable} WHERE "uaid" = $1 LIMIT 1;`;
+
 const eduColsPri = ["uaid", "degree", "start"];
 const eduColsOther = ["school", "achievement", "end"];
 
@@ -57,10 +59,14 @@ const delEdu = async (val) => {
  * check if a user's education exists in the database.
  * if yes, then retrieve all information about this user's acadmic background.
  */
-const fetchEdu = async (id, errno) => {
+const fetchEdu = async (id, errno, brief = false) => {
   try {
-    const result = await dbQuery(srcUserEdu, [id], errno);
-    return result;
+    if (brief) {
+      return await dbQuery(srcUserEduBrief, [id], errno);
+    }
+    else {
+      return await dbQuery(srcUserEdu, [id], errno);
+    }
   }
   catch (error) {
     console.error("Error: " + error)
