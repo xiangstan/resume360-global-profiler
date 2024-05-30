@@ -5,6 +5,8 @@ const expTable = `${DB_SCHEMA}.jobs`;
 
 const srcUserExp = `SELECT "uaid", "title", "company", "experience", "start", "end" FROM ${expTable} WHERE "uaid" = $1;`;
 
+const srcUserExpBrief = `SELECT "title" AS "t", "company" AS "c", CASE WHEN "end" IS NULL THEN EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM "start") ELSE EXTRACT(YEAR FROM "end") - EXTRACT(YEAR FROM "start") END AS "y" FROM ${expTable} WHERE "uaid" = $1 LIMIT 1;`;
+
 const expColsPri = ["uaid", "title", "start"];
 const expColsOther = ["company", "experience", "end"];
 
@@ -59,10 +61,14 @@ const delExp = async (val) => {
  * check if a user's experiences exists in the database.
  * if yes, then retrieve all information about this user's working history.
  */
-const fetchExp = async (id, errno) => {
+const fetchExp = async (id, errno, brief = false) => {
   try {
-    const result = await dbQuery(srcUserExp, [id], errno);
-    return result;
+    if (brief) {
+      return await dbQuery(srcUserExpBrief, [id], errno);
+    }
+    else {
+      return await dbQuery(srcUserExp, [id], errno);
+    }
   }
   catch (error) {
     console.error("Error: " + error)

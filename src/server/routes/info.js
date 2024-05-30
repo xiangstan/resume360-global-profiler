@@ -13,10 +13,17 @@ infoRouter.get("/", function(req, res) {
 infoRouter.get("/user/:userId", async function(req, res) {
   // Access the user_id using req.params
   const userId = req.params.userId;
-  const result = await fetchUser(userId, 1);
-  if (dbQueryValidate(result.errno, [1])) {
-    result.edu = await fetchEdu(userId, 1);
-    result.exp = await fetchExp(userId, 1);
+  const result = {
+    edu: [],
+    exp: []
+  };
+  const edu = await fetchEdu(userId, 1, true);
+  if (dbQueryValidate(edu.errno, [1])) {
+    result.edu = edu.errmsg[0];
+  }
+  const exp = await fetchExp(userId, 1, true);
+  if (dbQueryValidate(exp.errno, [1])) {
+    result.exp = exp.errmsg[0];
   }
   res.status(200).send(result);
 });
