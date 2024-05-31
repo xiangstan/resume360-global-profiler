@@ -57,7 +57,7 @@ const updateUser = async (val) => {
     if (dbQueryValidate(result.errno, [101])) {
       result.note = 'User profile';
       result.status = 'success';
-      result.profile = await fetchUser(val.email, 1);
+      result.profile = await fetchUser(val.user, 1);
     }
     return result;
   }
