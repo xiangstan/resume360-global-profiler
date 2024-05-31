@@ -23,6 +23,7 @@ const networkTokenSymbols = {
   137: "MATIC", // Polygon Mainnet
   80001: "MATIC", // Mumbai Testnet
   421614: "Sepolia Ethereum",
+  11155111: 'SepoliaETH', // Ethereum Sepolia
   11155420: "ETH", // Optimism-Sepolia Testnet
   // Add other networks as needed
 };
@@ -32,6 +33,10 @@ const networkTokenAddressList = {
   421614: {
     'eth': '0xd30e2101a97dcbAeBCBC04F14C3f624E67A35165',
     'link': '0x0FB99723Aee6f420beAD13e6bBB79b7E6F034298'
+  },
+  11155111: {
+    'eth': '0x694AA1769357215DE4FAC081bf1f309aDC325306',
+    'link': '0xc59E3633BAAC79493d908e63626716e204A45EdF'
   }
 };
 
@@ -40,8 +45,11 @@ export const getChainTokenSymbol = (chainId) => {
 }
 
 /*** get a selected token's latested reported price */
-export const getLatestTokenPrice = async (address) => {
-  const provider = new ethers.JsonRpcProvider("https://rpc.ankr.com/arbitrum_sepolia")
+export const getLatestTokenPrice = async (address, networkId) => {
+  // const provider = new ethers.JsonRpcProvider("https://rpc.ankr.com/arbitrum_sepolia")
+  console.log(networkId)
+  console.log(getRPCProvider(networkId))
+  const provider = new ethers.JsonRpcProvider(getRPCProvider(networkId))
   const aggregatorV3InterfaceABI = [
     {
       inputs: [],
@@ -117,4 +125,13 @@ export const getNetworkTokenAddress = (networkId) => {
     'eth': null,
     'link': null
   }
+}
+
+const getRPCProvider = (networkId) => {
+  console.log("Inside getRCPProvider: " + networkId)
+  const getAddress = {
+    421614: 'https://rpc.ankr.com/arbitrum_sepolia',
+    11155111: 'https://rpc.ankr.com/eth_sepolia'
+  };
+  return getAddress[networkId] || '';
 }
