@@ -9,26 +9,36 @@ import FooterView from './components/static/FooterView.vue';
 import NavbarView from './components/static/NavbarView.vue';
 import LoginView from './components/public/LoginView.vue';
 
+import ContactView from './components/static/ContactView.vue';
+
 const appStore = useAppStore();
 const showStore = useShowStore();
 </script>
 
 <template>
-  <div>
+  <div id="app">
     <NavbarView />
 
     <main class="min-h-[80vh] wrapper dark:bg-slate-600 flex">
       <AsideView v-if="appStore.isInternal" />
-      <div class="p-4 mb-6 flex-1">
+      <div class="flex-1" :class="{'p-4 mb-6': appStore.isInteral}">
+        <!-- Home/About content -->
+        
+
         <RouterView />
       </div>
     </main>
-
+    
     <LoginView v-if="showStore.loginModal" />
-
+    <section id="contact-us">
+      <ContactView />
+    </section>
     <FooterView />
   </div>
 </template>
 
 <style scoped>
+export default {
+  name: 'App',
+};
 </style>
