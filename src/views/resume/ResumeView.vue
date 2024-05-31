@@ -127,6 +127,18 @@ const preFormDataset = {
   user: myStoredUser,
   uaid: myStoredUaid
 };
+const initResumeData = {
+  edu: {
+    count: 0,
+    errmsg: [],
+    errno: 1
+  },
+  exp: {
+    count: 0,
+    errmsg: [],
+    errno: 1
+  },
+}
 
 const items = ref({});
 const bc = ref([
@@ -211,6 +223,7 @@ const publishResume = async (e) => {
 }
 /*** start building resume */
 const startResume = () => {
+  items.value = initResumeData;
   isNoResume.value = false;
   initResume.value = true;
 }
