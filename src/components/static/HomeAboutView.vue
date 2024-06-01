@@ -6,14 +6,14 @@
         <h2 class="text-5xl mb-2">Enhance Your Career with Resume360</h2>
         <p class="text-xl mb-6">Boost your career prospects with our comprehensive resume building and profiling services.</p>
         <p class="text-xl mb-8">Leverage our global profiling services to stand out in the competitive job market.</p>
-        <div class="buttons flex justify-center gap-5">
-          <a 
+        <div class="buttons flex flex-col md:flex-row item-center justify-center gap-3 px-[10%] sm:px-[30%] md:px-0">
+          <button 
             v-if="!appStore.isInternal"
             @click="showLoginModal"
-            class="capitalize cursor-pointer py-2 px-4 bg-blue-400 hover:bg-blue-400 text-blue-900 hover:text-gray-800 rounded transition duration-300">
+            class="w-full sm:w-auto capitalize cursor-pointer py-2 px-4 bg-blue-400 hover:bg-blue-400 text-blue-900 hover:text-gray-800 rounded transition duration-300">
             {{ $t('Get Start') }}
-          </a>
-          <button class="btn-secondary bg-transparent text-white border border-white py-2 px-4 rounded" @click="scrollToContact">Contact Us</button>
+          </button>
+          <button class="w-full sm:w-auto btn-secondary bg-transparent text-white border border-white py-2 px-4 rounded" @click="scrollToContact">Contact Us</button>
         </div>
       </div>
     </section>
