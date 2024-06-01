@@ -5,7 +5,9 @@ const usersTable = `"${DB_SCHEMA}"."users"`;
 
 const addSingleAccount = `INSERT INTO ${usersTable} ("email") VALUES ($1) RETURNING "uaid"`;
 
-const selSingleAccount = `SELECT "uaid", "email", "name", "img", "published" FROM ${usersTable} WHERE "email" = $1;`;
+const selSingleAccount = `SELECT "uaid", "email", "name", "img", "abstract", "resume", "published" FROM ${usersTable} WHERE "email" = $1;`;
+
+const selUserInfo = `SELECT "email", "name", "img" FROM ${usersTable} WHERE "uaid" = $1;`;
 
 /***
  * create a new user account
@@ -28,10 +30,14 @@ const addUser = async (email) => {
  * check if a user exists in the database.
  * if yes, then retrieve all information about this user.
  */
-const fetchUser = async (email, errno) => {
+const fetchUser = async (user, errno) => {
   try {
-    const result = await dbQuery(selSingleAccount, [email], errno);
-    return result;
+    if (!isNaN(user)) {
+      return await dbQuery(selUserInfo, [user], errno);
+    }
+    else {
+      return await dbQuery(selSingleAccount, [user], errno);
+    }
   }
   catch (error) {
     console.error("Error: " + error)
@@ -51,7 +57,7 @@ const updateUser = async (val) => {
     if (dbQueryValidate(result.errno, [101])) {
       result.note = 'User profile';
       result.status = 'success';
-      result.profile = await fetchUser(val.email, 1);
+      result.profile = await fetchUser(val.user, 1);
     }
     return result;
   }

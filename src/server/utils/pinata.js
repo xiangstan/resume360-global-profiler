@@ -18,19 +18,25 @@ class pinataFunc {
     });
   }
 
-  async uploadFile(imageData, uaid, email, format) {
+  /*** Set Pinata options */
+  setPinataOptions(name, keys) {
     const options = {
       pinataMetadata: {
-        name: `User${uaid}Profile.${format}`,
-        keyvalues: {
-          email: email,
-          uaid: uaid
-        }
+        name: name,
+        keyvalues: {}
       },
       pinataOptions: {
         cidVersion: 0
       }
     }
+    // Copy key-value pairs from keys to options.pinataMetadata.keyvalues
+    Object.assign(options.pinataMetadata.keyvalues, keys);
+    return options;
+  }
+
+  /*** Upload an image to Pinata */
+  async uploadImgFile(imageData, uaid, email, format) {
+    const options = this.setPinataOptions(`User${uaid}Profile.${format}`, { email: email, uaid: uaid });
     /*** Convert base64 image data to Buffer */
     const imageBuffer = Buffer.from(imageData, 'base64');
     // Create a readable stream from the buffer
@@ -48,6 +54,7 @@ class pinataFunc {
       }
       else {
         return {
+          errmsg: 'The image has uploaded to Pinata, but did not return the PIFS hash',
           errno: -1,
           status: 'danger'
         }
@@ -55,8 +62,41 @@ class pinataFunc {
     }
     catch (error) {
       console.log(error)
+      return {
+        errmsg: 'The image did not uploaded to Pinata successfully',
+        errno: -1,
+        status: 'danger'
+      }
     }
+  }
 
+  /*** Upload NFT Metadata to Pinata */
+  async uploadNftFile(json, uaid, name) {
+    const options = this.setPinataOptions(`User${uaid}ResumeMetaData`, { name: name });
+    try {
+      const result = await this.pinata.pinJSONToIPFS(json, options);
+      if (result && typeof result.IpfsHash !== 'undefined' && result.IpfsHash.length > 0) {
+        return {
+          errno: 105,
+          value: result
+        };
+      }
+      else {
+        return {
+          errmsg: 'The image has uploaded to Pinata, but did not return the PIFS hash',
+          errno: -1,
+          status: 'danger'
+        }
+      }
+    }
+    catch (error) {
+      console.log(error)
+      return {
+        errmsg: 'The image did not uploaded to Pinata successfully',
+        errno: -1,
+        status: 'danger'
+      }
+    }
   }
 }
 

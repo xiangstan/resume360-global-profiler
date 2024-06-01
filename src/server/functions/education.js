@@ -3,7 +3,7 @@ const { DB_SCHEMA } = process.env;
 
 const eduTable = `${DB_SCHEMA}.education`;
 
-const srcUserEdu = `SELECT "uaid", "degree", "school", "achievement", "start", "end" FROM ${eduTable} WHERE "uaid" = $1;`;
+const srcUserEdu = `SELECT "uaid", "degree", "school", "achievement", "start", "end" FROM ${eduTable} WHERE "uaid" = $1 ORDER BY "end" NULLS FIRST;`;
 
 const eduColsPri = ["uaid", "degree", "start"];
 const eduColsOther = ["school", "achievement", "end"];

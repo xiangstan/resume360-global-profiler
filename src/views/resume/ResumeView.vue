@@ -40,6 +40,7 @@
             </svg>
           </a>
         </h2>
+        <NewRecord v-if="showForm.exp" method="exp" key="exp" :callback="updateRecords" />
         <div class="mb-5">
           <ErrorRecord v-if="+items.exp.errno !== 1" />
           <NoRecord v-else-if="+items.exp.count < 1" />
@@ -53,7 +54,6 @@
             </div>
           </template>
         </div>
-        <NewRecord v-if="showForm.exp" method="exp" key="exp" :callback="updateRecords" />
       </div>
       <!-- Education -->
       <div class="rounded-md shadow-md p-5 bg-gray-50 dark:bg-gray-700 mb-6">
@@ -71,6 +71,7 @@
             </svg>
           </a>
         </h2>
+        <NewRecord v-if="showForm.edu" method="edu" key="edu" :callback="updateRecords" />
         <div class="mb-5">
           <ErrorRecord v-if="+items.edu.errno !== 1" />
           <NoRecord v-else-if="+items.edu.count < 1" />
@@ -84,10 +85,9 @@
             </div>
           </template>
         </div>
-        <NewRecord v-if="showForm.edu" method="edu" key="edu" :callback="updateRecords" />
       </div>
       <div>
-        <button class="cursor-pointer rounded-md shadow-md px-5 py-3 bg-emerald-400 border-emerald-600 hover:bg-green-600 hover:border-green-800 text-white capitalize disabled:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50" :disabled="isPublishDisabled">
+        <button class="cursor-pointer rounded-md shadow-md px-5 py-3 bg-emerald-400 border-emerald-600 hover:bg-green-600 hover:border-green-800 text-white capitalize disabled:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50" :disabled="isPublishDisabled" @click="publishResume">
           {{ $t('resume.publish') }}
         </button>
       </div>
@@ -118,12 +118,13 @@ const accountStore = useMyAccount();
 const browser = browserDetect();
 const myStoredUaid = accountStore.profile.uaid || 0;
 const myStoredUser = accountStore.profile.email || '';
+const myStoredProfileImg = accountStore.profile.img || '';
 const myStoredName = accountStore.profile.name;
 const localStoredUser = localStorage.getItem(import.meta.env.VITE_APP_SITE_SHORT + "User");
 
 const preFormDataset = {
   browser: browser.browser.name,
-  email: myStoredUser,
+  user: myStoredUser,
   uaid: myStoredUaid
 };
 
@@ -173,6 +174,41 @@ const initFetch = async () => {
     console.warn("Not logged in")
   }
 }
+/*** publish resume */
+const publishResume = async (e) => {
+  e.preventDefault();
+  if (myStoredProfileImg) {
+    const ajaxData = objClone(formData, {
+      name: myStoredName,
+      image: myStoredProfileImg,
+      abstract: "This is a random text. Just for testing purpose."
+    });
+    console.log(ajaxData)
+    const result = await ajaxCall({
+      data: ajaxData,
+      url: "resume/publish"
+    });
+    const err = ajaxErrShow(result);
+    if (ajaxCompare(result.errno, [104])) {
+      accountStore.updateAccountData({
+        key: "profile",
+        value: result.profile.errmsg[0]
+      });
+    }
+    createToast(err.message, {
+      showIcon: true,
+      type: err.status,
+      position: "bottom-right"
+    })
+  }
+  else {
+    createToast('User profile photo is missing', {
+      showIcon: true,
+      type: 'danger',
+      position: "bottom-right"
+    })
+  }
+}
 /*** start building resume */
 const startResume = () => {
   isNoResume.value = false;
@@ -203,7 +239,7 @@ const saveName = async () => {
       data: ajaxData,
       url: "user/update"
     });
-    const err = ajaxErrShow(result)
+    const err = ajaxErrShow(result);
     if (ajaxCompare(result.errno, [101])) {
       accountStore.updateAccountData({
         key: "profile",
