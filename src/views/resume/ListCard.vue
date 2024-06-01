@@ -13,7 +13,7 @@
         <span class="font-bold text-xl">
           Abstract
         </span>
-        <a class="cursor-pointer" title="View more details">
+        <a class="cursor-pointer" title="View more details" @click="getDetailedInfo">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
           </svg>
@@ -33,6 +33,10 @@ import axios from 'axios';
 import { truncateString } from '@/utils/strings';
 
 const props = defineProps({
+  callback: {
+    type: Function,
+    required: true
+  },
   i: {
     type: Object,
     default: () => {
@@ -62,7 +66,15 @@ const getNftTrait = computed(() => {
   }
   return data;
 })
-
+console.log(props.bio)
+/***
+ * methods
+ */
+/*** callbacn function */
+const getDetailedInfo = () => {
+  props.callback(getNftTrait.value.resume, jsonData.value.name)
+}
+/*** fetch data from nft */
 const fetchData = async () => {
   try {
     const response = await axios.get(checkTokenUrl(props.i.tokenURI));
