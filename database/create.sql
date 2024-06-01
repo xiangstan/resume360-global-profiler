@@ -10,7 +10,7 @@ CREATE DATABASE "resume"
   LC_COLLATE = 'en_US.UTF-8'
   LC_CTYPE = 'en_US.UTF-8'
   CONNECTION LIMIT = -1;
-COMMENT ON DATABASE "potg" IS 'Database for Resume360 Global Profiler';
+COMMENT ON DATABASE "resume" IS 'Database for Resume360 Global Profiler';
 
 -- Connect to the 'resume' database
 \c resume;
@@ -23,6 +23,8 @@ CREATE TABLE "sgp"."users" (
   "email" VARCHAR(255) UNIQUE NOT NULL,
   "name" VARCHAR(255) DEFAULT NULL,
   "img" VARCHAR(64) DEFAULT NULL,
+  "abstract" TEXT DEFAULT NULL,
+  "resume" VARCHAR(64) DEFAULT NULL,
   "published" BOOLEAN NOT NULL DEFAULT false
 );
 -- Add comments to the table and columns

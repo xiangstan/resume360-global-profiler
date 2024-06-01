@@ -110,7 +110,7 @@ const getTokensPrices = async () => {
     tokens = getNetworkTokenAddress(getChainId.value);
     // tokens.chainId = getChainId.value;
     for (const t in tokens) {
-      tokenPrices[t] = await getLatestTokenPrice(tokens[t]);
+      tokenPrices[t] = await getLatestTokenPrice(tokens[t], getChainId.value);
     }
   }
 }
