@@ -80,29 +80,29 @@
 
   <!-- Team Member -->
   <section class="bg-gray-600 text-gray-200 py-16">
-      <div class="container mx-auto text-center">
+      <div class="container mx-auto text-center flex flex-col">
         <h2 class="text-4xl font-bold mb-12">Our Team</h2>
-        <div class="flex flex-wrap justify-center gap-24">
+        <div class="flex flex-wrap justify-center gap-24 lg:gap-0">
           <!-- Tan -->
-          <div class="max-w-xs flex flex-col items-center">
+          <div class="w-full md:w-1/2 lg:w-1/4 flex flex-col items-center">
             <img src="@/assets/img/Tan.jpg" alt="Social Media Management" class="w-20 h-20 mb-4 rounded-full">
             <h3 class="text-2xl font-semibold mb-2">Xiang Tan</h3>
             <p class="text-base">Web 2.0, Web 3.0 developer</p>
           </div>
           <!-- Jason -->
-          <div class="max-w-xs flex flex-col items-center">
+          <div class="w-full md:w-1/2 lg:w-1/4 flex flex-col items-center">
             <img src="@/assets/img/zq.jpg" alt="Email Marketing Campaigns" class="w-20 h-20 mb-4 rounded-full">
             <h3 class="text-2xl font-semibold mb-2">Zhenqi Liu</h3>
             <p class="text-base">Backend developer</p>
           </div>
           <!-- Lin -->
-          <div class="max-w-xs flex flex-col items-center">
+          <div class="w-full md:w-1/2 lg:w-1/4 flex flex-col items-center">
             <img src="@/assets/img/zl.jpg" alt="Email Marketing Campaigns" class="w-20 h-20 mb-4 rounded-full">
             <h3 class="text-2xl font-semibold mb-2">Zhenyu Lin</h3>
             <p class="text-base">Frontend developer</p>
           </div>
           <!-- Zhao -->
-          <div class="max-w-xs flex flex-col items-center">
+          <div class="w-full md:w-1/2 lg:w-1/4 flex flex-col items-center">
             <img src="@/assets/img/zj.jpg" alt="Email Marketing Campaigns" class="w-20 h-20 mb-4 rounded-full">
             <h3 class="text-2xl font-semibold mb-2">Dr. Junxian Zhao</h3>
             <p class="text-base">AI, API developer</p>
