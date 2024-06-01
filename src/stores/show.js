@@ -7,7 +7,8 @@ export const useShowStore = defineStore("showStore", {
       isAside: false,
       isDialog: false,
       isLoading: false,
-      loginModal: false
+      loginModal: false,
+      functionData: null
     }
   },
   actions: {
@@ -16,6 +17,9 @@ export const useShowStore = defineStore("showStore", {
       if (typeof this[data.key] !== "undefined") {
         this[data.key] = (typeof data.value === "boolean") ? data.value : false
       }
+    },
+    updatefunctionValue(data) {
+      this.functionData = data
     }
   },
 })

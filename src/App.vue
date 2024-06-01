@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router';
+import { RouterView } from 'vue-router';
 
 import { useAppStore } from '@/stores/app';
 import { useShowStore } from '@/stores/show';
@@ -21,10 +21,7 @@ const showStore = useShowStore();
 
     <main class="min-h-[80vh] wrapper dark:bg-slate-600 flex">
       <AsideView v-if="appStore.isInternal" />
-      <div class="flex-1" :class="{'p-4 mb-6': appStore.isInteral}">
-        <!-- Home/About content -->
-        
-
+      <div class="flex-1" :class="{'p-4 mb-6': appStore.isInternal}">
         <RouterView />
       </div>
     </main>
@@ -38,7 +35,4 @@ const showStore = useShowStore();
 </template>
 
 <style scoped>
-export default {
-  name: 'App',
-};
 </style>
