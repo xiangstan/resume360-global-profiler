@@ -6,6 +6,13 @@ export const cap1stLetter = (data, ops) => {
   }
   return words.join(ops)
 }
+/*** convert all \n inside a string to <br /> */
+export const nToBr = (str) => {
+  if (typeof str !== 'string' || str.length < 1) {
+    return '';
+  }
+  return str.replace(/\n/g, '<br>');
+}
 /*** hide the middle of text string */
 export const shortenString = (str) => {
   if (str.length > 10) {
@@ -23,12 +30,16 @@ export const shortenString = (str) => {
     return str;
   }
 }
-/*** convert all \n inside a string to <br /> */
-export const nToBr = (str) => {
-  if (typeof str !== 'string' || str.length < 1) {
-    return '';
+/*** if a string has more than 63 characters, truncate it to 60 and add ... at the end */
+export const truncateString = (str = '') => {
+  // Check if the string length is more than 63 characters
+  if (str.length > 63) {
+    // Return the first 60 characters followed by '...'
+    return str.slice(0, 60) + '...';
+  } else {
+    // If the string is 63 characters or less, return it as is
+    return str;
   }
-  return str.replace(/\n/g, '<br>');
 }
 /*** display character count of textarea */ 
 export const textCount = (text, max) => {
