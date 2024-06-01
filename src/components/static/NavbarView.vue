@@ -35,7 +35,7 @@
               </svg>
             </a>
 
-            <div class="dropdown inline-block px-5 relative">
+            <div class="dropdown inline-block px-5 relative z-10">
               <a>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                   <title>Language Selector</title>

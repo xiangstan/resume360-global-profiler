@@ -151,5 +151,6 @@ dist-ssr
 
 # local unminify/text files
 /src/assets/i18n/*.json
+/src/assets/contracts/*.json
 test.*
 syslog

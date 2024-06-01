@@ -119,7 +119,7 @@ const saveForm = async (e) => {
 </script>
 
 <template>
-  <div class="border-2 rounded-md p-6 shadow-inner">
+  <div class="border-2 rounded-md p-6 shadow-inner mb-4">
     <div v-if="method === 'exp'" class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
       <div>
         <div class="flex items-center justify-between mb-2">

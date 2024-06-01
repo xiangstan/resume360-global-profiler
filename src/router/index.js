@@ -69,6 +69,15 @@ const router = createRouter({
       }
     },
     {
+      path: "/resume/market",
+      name: "ListView",
+      component: () => import('../views/resume/ListView.vue'),
+      meta: {
+        isInternal: true,
+        title: 'List Published Resumes'
+      }
+    },
+    {
       path: "/user/resume",
       name: "ResumeView",
       component: () => import('../views/resume/ResumeView.vue'),

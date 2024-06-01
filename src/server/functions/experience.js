@@ -3,7 +3,7 @@ const { DB_SCHEMA } = process.env;
 
 const expTable = `${DB_SCHEMA}.jobs`;
 
-const srcUserExp = `SELECT "uaid", "title", "company", "experience", "start", "end" FROM ${expTable} WHERE "uaid" = $1;`;
+const srcUserExp = `SELECT "uaid", "title", "company", "experience", "start", "end" FROM ${expTable} WHERE "uaid" = $1 ORDER BY "end" NULLS FIRST;`;
 
 const expColsPri = ["uaid", "title", "start"];
 const expColsOther = ["company", "experience", "end"];
