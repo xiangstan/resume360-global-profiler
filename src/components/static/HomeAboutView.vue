@@ -7,11 +7,12 @@
         <p class="text-xl mb-6">Boost your career prospects with our comprehensive resume building and profiling services.</p>
         <p class="text-xl mb-8">Leverage our global profiling services to stand out in the competitive job market.</p>
         <div class="buttons flex justify-center gap-5">
-          <router-link
-            to="/contact#contact-section" 
-            class="btn-primary bg-blue-500 text-white py-2 px-4 rounded hover:bg-slate-200 hover:text-gray-800 transition-all duration-500 ease-in-out">
-            Get Started
-          </router-link>
+          <a 
+            v-if="!appStore.isInternal"
+            @click="showLoginModal"
+            class="capitalize cursor-pointer py-2 px-4 bg-blue-400 hover:bg-blue-400 text-blue-900 hover:text-gray-800 rounded transition duration-300">
+            {{ $t('Get Start') }}
+          </a>
           <button class="btn-secondary bg-transparent text-white border border-white py-2 px-4 rounded" @click="scrollToContact">Contact Us</button>
         </div>
       </div>
@@ -115,17 +116,27 @@
 </template>
 
 
-<script>
-export default {
-  name: "HomeAboutView",
-  methods: {
-    /**Founction to let the button scroll to Contact Us */
-    scrollToContact() {
-      const contactSection = document.getElementById('contact-us');
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
+<script setup>
+import { useAppStore } from '@/stores/app';
+import { useShowStore } from '@/stores/show';
+
+// Use the stores
+const appStore = useAppStore();
+const showStore = useShowStore();
+
+// Function to show the login modal
+const showLoginModal = () => {
+  showStore.updateShow({
+    key: "loginModal",
+    value: !showStore.loginModal
+  });
+};
+
+// Function to scroll to contact section
+const scrollToContact = () => {
+  const contactSection = document.getElementById('contact-us');
+  if (contactSection) {
+    contactSection.scrollIntoView({ behavior: 'smooth' });
   }
 };
 </script>
