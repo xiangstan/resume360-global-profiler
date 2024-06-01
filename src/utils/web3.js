@@ -46,9 +46,6 @@ export const getChainTokenSymbol = (chainId) => {
 
 /*** get a selected token's latested reported price */
 export const getLatestTokenPrice = async (address, networkId) => {
-  // const provider = new ethers.JsonRpcProvider("https://rpc.ankr.com/arbitrum_sepolia")
-  console.log(networkId)
-  console.log(getRPCProvider(networkId))
   const provider = new ethers.JsonRpcProvider(getRPCProvider(networkId))
   const aggregatorV3InterfaceABI = [
     {
@@ -127,8 +124,8 @@ export const getNetworkTokenAddress = (networkId) => {
   }
 }
 
-const getRPCProvider = (networkId) => {
-  console.log("Inside getRCPProvider: " + networkId)
+/*** get RPC Provider from a selected network */
+export const getRPCProvider = (networkId) => {
   const getAddress = {
     421614: 'https://rpc.ankr.com/arbitrum_sepolia',
     11155111: 'https://rpc.ankr.com/eth_sepolia'

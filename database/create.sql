@@ -23,6 +23,8 @@ CREATE TABLE "sgp"."users" (
   "email" VARCHAR(255) UNIQUE NOT NULL,
   "name" VARCHAR(255) DEFAULT NULL,
   "img" VARCHAR(64) DEFAULT NULL,
+  "abstract" TEXT DEFAULT NULL,
+  "resume" VARCHAR(64) DEFAULT NULL,
   "published" BOOLEAN NOT NULL DEFAULT false
 );
 -- Add comments to the table and columns
