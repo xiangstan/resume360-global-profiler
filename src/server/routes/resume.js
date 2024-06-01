@@ -2,12 +2,28 @@ const express = require("express");
 const resumeRouter = express.Router();
 const { fetchEdu, updateEdu } = require("../functions/education");
 const { fetchExp, updateExp } = require("../functions/experience.js");
+const { getAbstract } = require('../functions/ai.js');
 const { uploadImage } = require("../functions/image.js");
 const { uploadResume } = require("../functions/publish");
 const { validateAuthSession } = require("../utils/jwt.js");
 
 resumeRouter.get("/", function(req, res) {
   res.send("Using Resume API route.");
+});
+
+/*** Generate Abastract */
+resumeRouter.post('/abstract', async function(req, res) {
+  if (validateAuthSession(req)) {
+    const result = await getAbstract(req.body);
+    return res.status(200).send(result);
+  }
+  else {
+    res.status(200).send({
+      errno: 103,
+      note: "Login session",
+      req: req.body
+    })
+  }
 });
 
 /*** Resume Fetch API */

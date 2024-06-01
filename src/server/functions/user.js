@@ -5,7 +5,7 @@ const usersTable = `"${DB_SCHEMA}"."users"`;
 
 const addSingleAccount = `INSERT INTO ${usersTable} ("email") VALUES ($1) RETURNING "uaid"`;
 
-const selSingleAccount = `SELECT "uaid", "email", "name", "img", "published" FROM ${usersTable} WHERE "email" = $1;`;
+const selSingleAccount = `SELECT "uaid", "email", "name", "img", "abstract", "resume", "published" FROM ${usersTable} WHERE "email" = $1;`;
 
 const selUserInfo = `SELECT "email", "name", "img" FROM ${usersTable} WHERE "uaid" = $1;`;
 

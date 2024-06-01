@@ -25,7 +25,7 @@ const uploadImage = async (val) => {
       if (dbQueryValidate(result.errno, [101])) {
         console.log(result)
         result = await updateUser({
-          email: val.user,
+          user: val.user,
           method: 'img',
           uaid: val.uaid,
           value: result.value.IpfsHash

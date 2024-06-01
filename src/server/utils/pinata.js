@@ -71,8 +71,8 @@ class pinataFunc {
   }
 
   /*** Upload NFT Metadata to Pinata */
-  async uploadNftFile(json, name) {
-    const options = this.setPinataOptions(`${name} Resume MetaData`, { name: name });
+  async uploadNftFile(json, uaid, name) {
+    const options = this.setPinataOptions(`User${uaid}ResumeMetaData`, { name: name });
     try {
       const result = await this.pinata.pinJSONToIPFS(json, options);
       if (result && typeof result.IpfsHash !== 'undefined' && result.IpfsHash.length > 0) {
