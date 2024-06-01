@@ -6,7 +6,10 @@ import { useMyAccount } from '@/stores/account';
 import { ajaxCall, ajaxCompare } from '@/utils/ajax'
 import browserDetect from '@/utils/browser';
 
-import HomeView from '../views/HomeView.vue';
+//import HomeView from '../views/HomeView.vue';
+
+import ContactView from '@/components/static/ContactView.vue';
+import HomeAboutView from '@/components/static/HomeAboutView.vue';
 
 const updInternal = (status) => {
   const store = useAppStore();
@@ -18,20 +21,36 @@ const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
-    }
-    else {
-      return { top: 0 }
+    }else if(to.hash){ // Added condition for hash-based scrolling
+      return{
+        el: to.hash, //el: scroll position element
+        behavior: 'smooth'
+    };
+    }else {
+      return { top: 0 };
     }
   },
   routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: HomeView,
-      meta: {
-        title: 'Welcome'
-      }
-    },
+        // *** Added the HomeAboutView ContactView route ***
+
+        {
+          path: '/',
+          name: 'HomeAbout',
+          component: HomeAboutView,
+          meta: {
+            title: 'Home About'
+          }
+        },
+        
+        {
+          path: '/',
+          name: 'Contact',
+          component:ContactView,
+          meta: {
+            title: 'Contact Us'
+          }
+        },
+        
     {
       path: '/about',
       name: 'about',

@@ -15,6 +15,13 @@
               <span class="font-bold">Outraverse</span>
             </a>
           </div>
+
+          <div class="flex space-x-4">
+          <!-- Add navigation links here -->
+            <router-link to="/" class="text-white hover:text-gray-300">Home</router-link>
+            <router-link to="/contact" class="text-white hover:text-gray-300">Contact Us</router-link>
+          </div>
+
           <!-- secondary nav -->
           <div class="hidden md:flex items-center space-x-1">
             <a class="cursor-pointer px-3" @click="toggleDarkMode">
@@ -65,6 +72,12 @@
     </nav>
   </header>
 </template>
+
+<script>
+export default {
+  name: 'NavbarView',
+};
+</script>
 
 <script setup>
 import { computed } from 'vue';
