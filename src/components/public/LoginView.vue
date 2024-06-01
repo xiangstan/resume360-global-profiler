@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed top-[10%] right-2">
+  <div class="fixed top-[10%] right-2 bg-gray-200 dark:bg-gray-900 rounded-lg">
     <div class="items-center justify-center">
       <div class="p-7 rounded shadow-md max-auto text-center w-full lg:max-w-md">
         <h3 class="font-bold pb-4">{{ $t('brand.google') + $t(" ") + $t('general.signin') }}</h3>

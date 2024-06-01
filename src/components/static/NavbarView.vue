@@ -1,6 +1,6 @@
 <template>
   <header>
-    <nav class="bg-white border-gray-200 text-gray-700 dark:bg-gray-900 dark:text-slate-100" :class="hasNavBorder">
+    <nav id="top-nav-bar" class="border-gray-200 dark:text-slate-100 w-full transition-all duration-300" :class="hasNavBorder">
       <div :class="isInternal ? 'px-2' : 'max-w-screen-lg mx-auto max-lg:px-2'">
         <div class="flex items-center justify-between">
           <!-- logo -->
@@ -14,12 +14,6 @@
               <img src="https://d1ex66uhwrtho1.cloudfront.net/img/outraverse-logo.png" class="w-6 h-6 mr-1 text-blue-400" alt="Outraverse Logo" />
               <span class="font-bold">Outraverse</span>
             </a>
-          </div>
-
-          <div class="flex space-x-4">
-          <!-- Add navigation links here -->
-            <router-link to="/" class="text-white hover:text-gray-300">Home</router-link>
-            <router-link to="/contact" class="text-white hover:text-gray-300">Contact Us</router-link>
           </div>
 
           <!-- secondary nav -->
@@ -80,7 +74,7 @@ export default {
 </script>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useAppStore } from '@/stores/app';
 import { useShowStore } from '@/stores/show';
 import { useRouter } from 'vue-router';
@@ -90,7 +84,6 @@ const { locale } = useI18n({ useScope: "global" })
 
 const appStore = useAppStore();
 const showStore = useShowStore();
-
 const router = useRouter()
 
 const isDarkMode = computed(() => {
@@ -103,7 +96,7 @@ const isAsideShow = computed(() => {
   return showStore.isAside;
 })
 const hasNavBorder = computed(() => {
-  return (appStore.isInternal) ? "border-b-2 border-slate-200" : ""
+  return (appStore.isInternal) ? "bg-white border-b-2 border-slate-200 dark:bg-gray-900" : "fixed text-gray-300"
 })
 
 /*** set dark/light mode */
@@ -132,13 +125,30 @@ const setLocale = (lang) => {
   locale.value = lang
   localStorage.setItem("langLocale", lang)
 }
-
+/*** toggling hamburger menu */
 const toggleHamburger = () => {
   showStore.updateShow({
     key: "isAside",
     value: !showStore.isAside
   })
 }
+/*** scrolling animation */
+const handleScroll = () => {
+  const navbar = document.getElementById('top-nav-bar')
+  const currentScrollPos = window.scrollY;
+  if (currentScrollPos < 10 && !isInternal.value) {
+    navbar.classList.remove('bg-gray-200', 'dark:bg-gray-900', 'text-gray-900');
+    navbar.classList.add('text-gray-300');
+  } else {
+    navbar.classList.remove('text-gray-300');
+    navbar.classList.add('bg-gray-200', 'dark:bg-gray-900', 'text-gray-900');
+  }
+}
+
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
+})
+
 </script>
 
 <style scoped>
@@ -160,13 +170,11 @@ const toggleHamburger = () => {
 
 .hamburger.is-active .line:nth-child(1){
   -webkit-transform: translateY(6px) rotate(45deg);
-  -ms-transform: translateY(6px) rotate(45deg);
   -o-transform: translateY(6px) rotate(45deg);
   transform: translateY(6px) rotate(45deg);
 }
 .hamburger.is-active .line:nth-child(3){
   -webkit-transform: translateY(-6px) rotate(-45deg);
-  -ms-transform: translateY(-6px) rotate(-45deg);
   -o-transform: translateY(-6px) rotate(-45deg);
   transform: translateY(-6px) rotate(-45deg);
 }

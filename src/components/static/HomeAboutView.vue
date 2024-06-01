@@ -1,7 +1,7 @@
 <template>
   <div class="home-view">
     <!-- Enhance Your Career with Resume360 Section -->
-    <section class="career-section bg-cover bg-center text-white flex flex-col items-center justify-center" style="background-image: url('src/assets/img/work.jpg'); min-height: 100vh;">
+    <section class="career-section bg-cover bg-center bg-fixed text-white flex flex-col items-center justify-center" style="background-image: url('src/assets/img/work.jpg'); min-height: 100vh;">
       <div class="content text-center">
         <h2 class="text-5xl mb-2">Enhance Your Career with Resume360</h2>
         <p class="text-xl mb-6">Boost your career prospects with our comprehensive resume building and profiling services.</p>
@@ -27,7 +27,7 @@
   
 
     <!-- Photo Section -->
-    <section class="profiler-section bg-gray-600 text-gray-200 bg-cover bg-center flex flex-col items-center justify-center" style="background-image: url('src/assets/img/building.jpg'); min-height: 50vh;">
+    <section class="profiler-section bg-gray-600 text-gray-200 bg-cover bg-center bg-fixed" style="background-image: url('src/assets/img/building.jpg'); min-height: 50vh;">
 
     </section>
 
