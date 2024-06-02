@@ -44,53 +44,9 @@ export default {
   methods: {
     
     submitForm() {
-      alert("Message sent!");
+      console.log("Function Does not Exist");
       // Handle form submission logic here
     },
-    /** add method that cannot send out email */
-    /**Install Axios (if you haven't already):
-
-intall:
-
-npm install axios
-
-Update the submitForm Method:
-Use Axios to send the form data to your backend server.
-
-Complete Script with Axios:
-
-import axios from 'axios';
-
-export default {
-  name: "ContactForm",
-  data() {
-    return {
-      form: {
-        name: "",
-        email: "",
-        message: "",
-      },
-      errorMessages: "",
-      successMessages: ""
-    };
-  },
-  methods: {
-    async submitForm() {
-      try {
-        // Send a POST request to your backend server
-        const response = await axios.post('https://your-backend-api.com/contact', this.form);
-        
-        // If submission is successful
-        this.successMessages = 'Message sent successfully!';
-        this.errorMessages = '';
-      } catch (error) {
-        // If there is an error
-        this.errorMessages = 'Unable to send email. Please try again later.';
-        this.successMessages = '';
-      }
-    }
-  }
-}; */
   },
 };
 </script>

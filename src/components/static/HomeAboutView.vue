@@ -6,13 +6,14 @@
         <h2 class="text-5xl mb-2">Enhance Your Career with Resume360</h2>
         <p class="text-xl mb-6">Boost your career prospects with our comprehensive resume building and profiling services.</p>
         <p class="text-xl mb-8">Leverage our global profiling services to stand out in the competitive job market.</p>
-        <div class="buttons flex justify-center gap-5">
-          <router-link
-            to="/contact#contact-section" 
-            class="btn-primary bg-blue-500 text-white py-2 px-4 rounded hover:bg-slate-200 hover:text-gray-800 transition-all duration-500 ease-in-out">
-            Get Started
-          </router-link>
-          <button class="btn-secondary bg-transparent text-white border border-white py-2 px-4 rounded" @click="scrollToContact">Contact Us</button>
+        <div class="buttons flex flex-col md:flex-row item-center justify-center gap-3 px-[10%] sm:px-[30%] md:px-0">
+          <button 
+            v-if="!appStore.isInternal"
+            @click="showLoginModal"
+            class="w-full sm:w-auto capitalize cursor-pointer py-2 px-4 bg-blue-400 hover:bg-blue-400 text-blue-900 hover:text-gray-800 rounded transition duration-300">
+            {{ $t('Get Start') }}
+          </button>
+          <button class="w-full sm:w-auto btn-secondary bg-transparent text-white border border-white py-2 px-4 rounded" @click="scrollToContact">Contact Us</button>
         </div>
       </div>
     </section>
@@ -80,29 +81,29 @@
 
   <!-- Team Member -->
   <section class="bg-gray-600 text-gray-200 py-16">
-      <div class="container mx-auto text-center">
+      <div class="container mx-auto text-center flex flex-col">
         <h2 class="text-4xl font-bold mb-12">Our Team</h2>
-        <div class="flex flex-wrap justify-center gap-24">
+        <div class="flex flex-wrap justify-center gap-24 lg:gap-0">
           <!-- Tan -->
-          <div class="max-w-xs flex flex-col items-center">
+          <div class="w-full md:w-1/2 lg:w-1/4 flex flex-col items-center">
             <img src="@/assets/img/Tan.jpg" alt="Social Media Management" class="w-20 h-20 mb-4 rounded-full">
             <h3 class="text-2xl font-semibold mb-2">Xiang Tan</h3>
             <p class="text-base">Web 2.0, Web 3.0 developer</p>
           </div>
           <!-- Jason -->
-          <div class="max-w-xs flex flex-col items-center">
+          <div class="w-full md:w-1/2 lg:w-1/4 flex flex-col items-center">
             <img src="@/assets/img/zq.jpg" alt="Email Marketing Campaigns" class="w-20 h-20 mb-4 rounded-full">
             <h3 class="text-2xl font-semibold mb-2">Zhenqi Liu</h3>
             <p class="text-base">Backend developer</p>
           </div>
           <!-- Lin -->
-          <div class="max-w-xs flex flex-col items-center">
+          <div class="w-full md:w-1/2 lg:w-1/4 flex flex-col items-center">
             <img src="@/assets/img/zl.jpg" alt="Email Marketing Campaigns" class="w-20 h-20 mb-4 rounded-full">
             <h3 class="text-2xl font-semibold mb-2">Zhenyu Lin</h3>
             <p class="text-base">Frontend developer</p>
           </div>
           <!-- Zhao -->
-          <div class="max-w-xs flex flex-col items-center">
+          <div class="w-full md:w-1/2 lg:w-1/4 flex flex-col items-center">
             <img src="@/assets/img/zj.jpg" alt="Email Marketing Campaigns" class="w-20 h-20 mb-4 rounded-full">
             <h3 class="text-2xl font-semibold mb-2">Dr. Junxian Zhao</h3>
             <p class="text-base">AI, API developer</p>
@@ -115,17 +116,27 @@
 </template>
 
 
-<script>
-export default {
-  name: "HomeAboutView",
-  methods: {
-    /**Founction to let the button scroll to Contact Us */
-    scrollToContact() {
-      const contactSection = document.getElementById('contact-us');
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
+<script setup>
+import { useAppStore } from '@/stores/app';
+import { useShowStore } from '@/stores/show';
+
+// Use the stores
+const appStore = useAppStore();
+const showStore = useShowStore();
+
+// Function to show the login modal
+const showLoginModal = () => {
+  showStore.updateShow({
+    key: "loginModal",
+    value: !showStore.loginModal
+  });
+};
+
+// Function to scroll to contact section
+const scrollToContact = () => {
+  const contactSection = document.getElementById('contact-us');
+  if (contactSection) {
+    contactSection.scrollIntoView({ behavior: 'smooth' });
   }
 };
 </script>
