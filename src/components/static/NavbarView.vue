@@ -1,6 +1,6 @@
 <template>
   <header>
-    <nav id="top-nav-bar" class="border-gray-200 dark:text-slate-100 w-full transition-all duration-300" :class="hasNavBorder">
+    <nav id="top-nav-bar" class="border-gray-200 dark:text-slate-100 w-full transition-all duration-300 z-10" :class="hasNavBorder">
       <div :class="isInternal ? 'px-2' : 'max-w-screen-lg mx-auto max-lg:px-2'">
         <div class="flex items-center justify-between">
           <!-- logo -->
