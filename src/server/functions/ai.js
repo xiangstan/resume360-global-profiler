@@ -16,7 +16,8 @@ const getAbstract = async (val) => {
     }
     return {
       errno: -1,
-      errmsg: stdout.trim()
+      errmsg: stdout.trim(),
+      status: 'success'
     }
 
   }

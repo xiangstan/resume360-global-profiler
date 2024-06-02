@@ -74,9 +74,13 @@ if __name__ == "__main__":
     result=str(model.current_chat_session).split('{')[-1].split('}')[0]
     #print(result[42:-2])
     result=result.split("content': ' ",1)[1]
+    #result=result.split(r"kills: \n",1)[1]
     #print(result[:-2])  
     result = result[:-2].replace("-","")
-    result = result.replace("\n","")
+    #result = result.replace(r"Key skills: \n", "")
+    result = result.replace(r"\n",", ")
+    result = result.replace("and", ", ")
+    result = result.strip()
 
     select_query = 'UPDATE "sgp"."users" SET "abstract"=%s WHERE "uaid"=%s;'
 
