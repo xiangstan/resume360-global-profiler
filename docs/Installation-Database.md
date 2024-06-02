@@ -7,6 +7,7 @@ sudo dnf install postgresql-server
 sudo postgresql-setup --initdb
 sudo systemctl status postgresql
 sudo systemctl start postgresql
+sudo systemctl enable postgresql
 ```
 
 ## Check PostgreSQL version
@@ -17,8 +18,10 @@ postgres --version
 
 ## Create Application Database User
 
+Once log in postgres DBMS with `sudo -u postgresql psql`, type:
+
 ```psql
-createuser --interactive akuma
+create user akuma with encrypted password '<password>';
 ```
 Setup the password from the [backend](Installation-Backend.md) setup guilde.
 

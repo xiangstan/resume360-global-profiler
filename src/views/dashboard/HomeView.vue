@@ -14,7 +14,7 @@
               <h5 class="mb-1 font-bold text-xl flex items-center justify-start">
                 <template v-if="!editName">
                   <span class="mr-1">
-                    {{ formData.name }}
+                    {{ formData.name || "<" + getCapitalized($t('general.no_name_yet')) + "...>" }}
                   </span>
                   <a v-if="!editName" class="cursor-pointer" @click="editName = true" title="Edit your name">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-amber-400">
@@ -28,6 +28,7 @@
                     class="mr-2 h-[42px] w-[280px]"
                     :class="{'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white block w-full p-2.5' : editName}"
                     type="text"
+                    @blur="saveName"
                   />
                   <a class="cursor-pointer" @click="editName = false" title="Cancel name edit">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -59,15 +60,32 @@
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useMyAccount } from '@/stores/account';
 
+import { cap1stLetter } from '@/utils/strings';
+import { createToast } from 'mosha-vue-toastify';
+import 'mosha-vue-toastify/dist/style.css';
+
+import { ajaxCall, ajaxCompare, ajaxErrShow } from '@/utils/ajax';
+import browserDetect from '@/utils/browser';
+import { objClone } from '@/utils/objects';
+
 import BreadCrumbs from '@/components/private/BreadCrumbs.vue';
 import ImageUoload from '@/components/private/ImageUpload.vue';
 
 const accountStore = useMyAccount();
+const browser = browserDetect();
+const myStoredUaid = accountStore.profile.uaid || 0;
+const myStoredUser = accountStore.profile.email || '';
+const myStoredName = accountStore.profile.name;
+
+const preFormDataset = {
+  browser: browser.browser.name,
+  name: '',
+  user: myStoredUser,
+  uaid: myStoredUaid
+};
 
 const bc = ref([]);
-const formData = reactive({
-  name: ''
-});
+const formData = reactive(objClone(preFormDataset));
 const isLoading = ref(true);
 const editName = ref(false);
 
@@ -81,6 +99,41 @@ const getProfile = computed(() => {
 const initFetch = () => {
   formData.name = accountStore.profile.name;
 };
+const getCapitalized = (string) => {
+  return cap1stLetter(string ,' ');
+}
+/*** save user's name' */
+const saveName = async () => {
+  if (typeof formData.name !== "undefined" && formData.name.length > 0 && formData.name !== myStoredName) {
+    const ajaxData = objClone(formData, {
+      method: "name",
+      value: formData.name
+    });
+    const result = await ajaxCall({
+      data: ajaxData,
+      url: "user/update"
+    });
+    const err = ajaxErrShow(result);
+    if (ajaxCompare(result.errno, [101])) {
+      accountStore.updateAccountData({
+        key: "profile",
+        value: result.profile.errmsg[0]
+      });
+    }
+    else {
+      formData.name = myStoredName;
+    }
+    editName.value = false;
+    createToast(err.message, {
+      showIcon: true,
+      type: err.status,
+      position: "bottom-right"
+    })
+  }
+  else {
+    console.log("Nothing changed")
+  }
+}
 
 onMounted(() => {
   initFetch();

@@ -86,7 +86,13 @@
           </template>
         </div>
       </div>
-      <div>
+      <p class="bg-amber-300 dark:bg-amber-600 text-gray-900 dark:text-gray-200 p-4 rounded-md mb-6">
+        {{ $t('resume.publish_warning') }}
+      </p>
+      <div class="flex flex-row gap-1">
+        <button class="cursor-pointer rounded-md shadow-md px-5 py-3 bg-fuchsia-400 border-fuchsia-600 hover:bg-purple-600 hover:border-purple-800 text-white capitalize disabled:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50" :disabled="isAIDisabled" @click="generateAbstract">
+          {{ $t('resume.abstract') }}
+        </button>
         <button class="cursor-pointer rounded-md shadow-md px-5 py-3 bg-emerald-400 border-emerald-600 hover:bg-green-600 hover:border-green-800 text-white capitalize disabled:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50" :disabled="isPublishDisabled" @click="publishResume">
           {{ $t('resume.publish') }}
         </button>
@@ -98,10 +104,13 @@
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useMyAccount } from '@/stores/account';
+import { useWeb3Store } from '@/stores/web3';
 
+import { ethers } from 'ethers';
 import { createToast } from 'mosha-vue-toastify';
 import 'mosha-vue-toastify/dist/style.css';
 
+import contractABI from '@/assets/contracts/resumeabi.json';
 import { ajaxCall, ajaxCompare, ajaxErrShow } from '@/utils/ajax';
 import browserDetect from '@/utils/browser';
 import { objClone } from '@/utils/objects';
@@ -115,6 +124,7 @@ import NewRecord from '@/components/private/NewRecord.vue';
 import NoRecord from '@/components/commons/NoRecord.vue';
 
 const accountStore = useMyAccount();
+const web3Store = useWeb3Store();
 const browser = browserDetect();
 const myStoredUaid = accountStore.profile.uaid || 0;
 const myStoredUser = accountStore.profile.email || '';
@@ -127,6 +137,18 @@ const preFormDataset = {
   user: myStoredUser,
   uaid: myStoredUaid
 };
+const initResumeData = {
+  edu: {
+    count: 0,
+    errmsg: [],
+    errno: 1
+  },
+  exp: {
+    count: 0,
+    errmsg: [],
+    errno: 1
+  },
+}
 
 const items = ref({});
 const bc = ref([
@@ -140,13 +162,15 @@ const showForm = reactive({
   edu: false,
   exp: false
 });
-const isPublishDisabled = computed(() => {
-  let temp = true;
+const isResumePassed = computed(() => {
   const dataSet = items.value;
-  if (typeof dataSet.edu !== 'undefined' && ajaxCompare(dataSet.edu.errno, [1]) && +dataSet.edu.count > 0 && typeof dataSet.exp !== 'undefined' && ajaxCompare(dataSet.exp.errno, [1]) && +dataSet.exp.count > 0 ) {
-    temp = false;
-  }
-  return temp;
+  return (typeof dataSet.edu !== 'undefined' && ajaxCompare(dataSet.edu.errno, [1]) && +dataSet.edu.count > 0 && typeof dataSet.exp !== 'undefined' && ajaxCompare(dataSet.exp.errno, [1]) && +dataSet.exp.count > 0 && myStoredProfileImg.length > 0) ? true : false;
+})
+const isAIDisabled = computed(() => {
+  return (isResumePassed.value) ? false : true;
+})
+const isPublishDisabled = computed(() => {
+  return (!isResumePassed.value || !accountStore.profile.abstract) ? true : false;
 })
 /***
  * methods
@@ -174,26 +198,97 @@ const initFetch = async () => {
     console.warn("Not logged in")
   }
 }
+/*** open new experience/education form */
+const addNew = (e) => {
+  if (myStoredName) {
+    const dataSet = e.currentTarget.dataset;
+    showForm[dataSet.tar] = !showForm[dataSet.tar];
+  }
+  else {
+    createToast('You need to save your name first', {
+      showIcon: true,
+      type: 'warning',
+      position: 'bottom-right'
+    });
+  }
+}
+/*** manually button to generate abstract */
+const generateAbstract = async (e) => {
+  e.preventDefault();
+  let err = {};
+  if (!isAIDisabled.value) {
+    const result = await ajaxCall({
+      data: preFormDataset,
+      url: "resume/abstract"
+    });
+    err = ajaxErrShow(result);
+    if (ajaxCompare(result.errno, [101])) {
+      accountStore.updateAccountData({
+        key: "profile",
+        value: result.profile.errmsg[0]
+      });
+    }
+  }
+  createToast(err.message, {
+    showIcon: true,
+    type: err.status,
+    position: "bottom-right"
+  })
+}
+/*** mint resume nft */
+const mintResumeNft = async (uri, provider) => {
+  console.log(uri)
+  const contractAddress = import.meta.env.VITE_APP_RESUME_CONTRACT;
+  const signer = await provider.getSigner();
+  const contract = new ethers.Contract(contractAddress, contractABI, signer);
+  try {
+    const transaction = await contract.safeMint(`https://https://ipfs.io/ipfs/${uri}`);
+    await transaction.wait();
+    const err = ajaxErrShow({ errno: 105, status: "success" });
+    createToast(err.message, {
+      showIcon: true,
+      type: err.status,
+      position: "bottom-right"
+    })
+  } catch (error) {
+    console.error("Error minting NFT:", error);
+  }
+}
 /*** publish resume */
 const publishResume = async (e) => {
   e.preventDefault();
-  if (myStoredProfileImg) {
+  await web3Store.connectToMetaMask();
+  const provider = new ethers.BrowserProvider(window.ethereum);
+  const { chainId } = await provider.getNetwork();
+  if (Number(chainId) !== Number(import.meta.env.VITE_APP_DEFAULT_BLOCKCHAIN_ID)) {
+    createToast(`Please switch to ${import.meta.env.VITE_APP_DEFAULT_BLOCKCHAIN_NAME}`, {
+      showIcon: true,
+      type: "danger",
+      position: "bottom-right"
+    })
+    return;
+  }
+  else if (myStoredProfileImg) {
     const ajaxData = objClone(formData, {
-      name: myStoredName,
+      abstract: accountStore.profile.abstract,
       image: myStoredProfileImg,
-      abstract: "This is a random text. Just for testing purpose."
+      name: myStoredName,
+      resume: import.meta.env.VITE_APP_FUNCTIONS_URI + myStoredUaid,
+      uaid: myStoredUaid,
+      user: myStoredUser
     });
-    console.log(ajaxData)
     const result = await ajaxCall({
       data: ajaxData,
       url: "resume/publish"
     });
     const err = ajaxErrShow(result);
-    if (ajaxCompare(result.errno, [104])) {
+    if (ajaxCompare(result.errno, [101])) {
+      const profile = result.profile.errmsg[0]
       accountStore.updateAccountData({
         key: "profile",
-        value: result.profile.errmsg[0]
+        value: profile
       });
+      mintResumeNft(profile.resume, provider)
     }
     createToast(err.message, {
       showIcon: true,
@@ -211,22 +306,9 @@ const publishResume = async (e) => {
 }
 /*** start building resume */
 const startResume = () => {
+  items.value = initResumeData;
   isNoResume.value = false;
   initResume.value = true;
-}
-/*** open new experience/education form */
-const addNew = (e) => {
-  if (myStoredName) {
-    const dataSet = e.currentTarget.dataset;
-    showForm[dataSet.tar] = !showForm[dataSet.tar];
-  }
-  else {
-    createToast('You need to save your name first', {
-      showIcon: true,
-      type: 'warning',
-      position: 'bottom-right'
-    });
-  }
 }
 /*** save user's name' */
 const saveName = async () => {
