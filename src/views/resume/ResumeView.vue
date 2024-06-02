@@ -242,7 +242,7 @@ const mintResumeNft = async (uri, provider) => {
   const signer = await provider.getSigner();
   const contract = new ethers.Contract(contractAddress, contractABI, signer);
   try {
-    const transaction = await contract.safeMint(`https://https://ipfs.io/ipfs/${uri}`);
+    const transaction = await contract.safeMint(`https://ipfs.io/ipfs/${uri}`);
     await transaction.wait();
     const err = ajaxErrShow({ errno: 105, status: "success" });
     createToast(err.message, {
